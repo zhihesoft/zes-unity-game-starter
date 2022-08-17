@@ -1,5 +1,7 @@
 {
   "dependencies": {
+    "com.tencent.puerts.core": "1.4.0-preview.6",
+    "com.unity.assetbundlebrowser": "1.7.0",
     "com.unity.collab-proxy": "1.15.18",
     "com.unity.feature.development": "1.0.1",
     "com.unity.ide.rider": "3.0.14",
@@ -41,7 +43,7 @@
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
     "com.unity.modules.xr": "1.0.0",
-    "com.tencent.puerts.core": "1.4.0-preview.6"
+    "io.github.icsharpcode.sharpziplib": "1.2.0"
   },
   "scopedRegistries": [
     {
@@ -49,7 +51,8 @@
       "url": "https://package.openupm.com",
       "scopes": [
         "com.openupm",
-        "com.tencent.puerts.core"
+        "com.tencent.puerts.core",
+        "io.github.icsharpcode.sharpziplib"
       ]
     }
   ]
