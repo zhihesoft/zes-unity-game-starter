@@ -1,0 +1,18 @@
+{
+  "name": "zes.game.core",
+  "displayName": "zes game core lib",
+  "version": "0.0.1",
+  "description": "core game lib for zhihesoft essential lib",
+  "keywords": [
+    "Script"
+  ],
+  "author": {
+    "name": "Stanley Hou",
+    "email": "houyuqing@hotmail.com",
+    "url": "https://github.com/zhihesoft/zes-unity-game-starter.git"
+  },
+  "category": "Libraries",
+  "publishConfig": {
+    "registry": "https://package.openupm.com"
+  }
+}
