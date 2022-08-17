@@ -1,4 +1,5 @@
 ﻿using Puerts;
+using System.IO;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -10,10 +11,18 @@ namespace Zes
     public abstract class App : MonoBehaviour
     {
         private static Logger logger = Logger.GetLogger<App>();
+        public static App instance { get; private set; }
 
         public JsEnv env { get; private set; }
         public abstract string jsPath { get; }
         public bool inEditor { get; private set; }
+        public virtual string persistentDataPath
+        {
+            get
+            {
+                return Path.Combine(Application.persistentDataPath, "patch_data");
+            }
+        }
 
         public async void Init()
         {
@@ -30,6 +39,8 @@ namespace Zes
 
         private void Start()
         {
+            instance = this;
+
 #if UNITY_EDITOR
             inEditor = true;
 #endif
