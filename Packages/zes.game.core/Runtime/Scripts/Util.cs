@@ -23,5 +23,12 @@ namespace Zes
                 await Task.Delay(0);
             }
         }
+
+        public static long Timestamp()
+        {
+            var offset = new DateTimeOffset(DateTime.UtcNow);
+            long stamp = offset.ToUnixTimeSeconds();
+            return stamp;
+        }
     }
 }

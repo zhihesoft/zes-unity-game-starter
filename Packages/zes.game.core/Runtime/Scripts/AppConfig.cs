@@ -5,6 +5,8 @@ namespace Zes
     [CreateAssetMenu(fileName = "app", menuName = "ZES/AppConfig", order = 1)]
     public class AppConfig : ScriptableObject
     {
+        public int maxCachedAsset = 512;
+
         public string patchDataPath = "patch_data";
 
         [Header("Javascript Editor Settings")]

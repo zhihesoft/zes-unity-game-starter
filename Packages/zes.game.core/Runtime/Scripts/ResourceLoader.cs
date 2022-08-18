@@ -21,14 +21,14 @@ namespace Zes
 #endif
 
         private Dictionary<string, PendingItem<AssetBundle>> bundles = new Dictionary<string, PendingItem<AssetBundle>>();
+        private Dictionary<string, PendingItem<UnityEngine.Object>> assets = new Dictionary<string, PendingItem<UnityEngine.Object>>();
         private Dictionary<string, string> assets2Bundle = new Dictionary<string, string>();
         private Dictionary<string, string> scenes2Bundle = new Dictionary<string, string>();
 
         public async Task LoadBundle(string name, Action<float> progress = null)
         {
-            if (bundles.ContainsKey(name))
+            if (bundles.TryGetValue(name, out var existed))
             {
-                var existed = bundles[name];
                 if (existed.pending)
                 {
                     await existed.Wait();
@@ -39,7 +39,7 @@ namespace Zes
             var item = new PendingItem<AssetBundle>();
             bundles.Add(name, item);
             var bundle = await loader.LoadBundle(name, progress);
-            item.SetDate(bundle);
+            item.Set(bundle);
             if (bundle != null)
             {
                 string[] itemnames = bundle.isStreamedSceneAssetBundle ? bundle.GetAllScenePaths() : bundle.GetAllAssetNames();
@@ -53,12 +53,7 @@ namespace Zes
 
         public async Task LoadBundles(string[] names, Action<float> progress = null)
         {
-            if (names.Length == 0)
-            {
-                progress?.Invoke(1);
-                return;
-            }
-
+            Debug.Assert(names.Length > 0);
             var total = names.ToDictionary<string, string, float>(i => i, i => 0);
             await Task.WhenAll(names.Select(name => LoadBundle(name, (p) =>
             {
@@ -69,14 +64,36 @@ namespace Zes
 
         public async Task<UnityEngine.Object> LoadAsset(string path, Type type)
         {
+            if (assets.TryGetValue(path, out var asset))
+            {
+                if (asset.pending)
+                {
+                    await asset.Wait();
+                }
+                return asset.item;
+            }
+
             if (!assets2Bundle.TryGetValue(path, out string bundlename))
             {
                 logger.Error($"cannot find a bundle contain path: ({path})");
                 return null;
             }
+
+            var item = new PendingItem<UnityEngine.Object>();
+            assets.Add(path, item);
             await LoadBundle(bundlename);
             var bundle = bundles[bundlename];
+            Debug.Assert(bundle != null, $"bundle {bundlename} cannot be null");
             var ret = await loader.LoadAsset(bundle.item, path, type);
+            item.Set(ret);
+
+            if (assets.Count > App.config.maxCachedAsset)
+            {
+                logger.Info($"assets.count ${assets.Count}>{App.config.maxCachedAsset}, shrinking cache ...");
+                var all = assets.OrderBy(i => i.Value.startTime);
+                assets = all.Skip(assets.Count / 2).ToDictionary(a => a.Key, a => a.Value);
+                logger.Info($"assets.count is ${assets.Count} now");
+            }
             return ret;
         }
 
