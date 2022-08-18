@@ -26,6 +26,11 @@ namespace Zes
             {
                 bundlePath = Path.Combine(Application.streamingAssetsPath, name);
             }
+            if (!File.Exists(bundlePath))
+            {
+                logger.error($"cannot find bundle in path: ({bundlePath})");
+                return null;
+            }
             var bundlereq = AssetBundle.LoadFromFileAsync(bundlePath);
             await Util.WaitAsyncOperation(bundlereq, progress);
             var bundle = bundlereq.assetBundle;
