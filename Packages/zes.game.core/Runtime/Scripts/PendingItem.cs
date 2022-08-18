@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Zes
 {
-    internal class PendingItem<T>
+    public class PendingItem<T>
     {
         public T item = default(T);
         public bool pending = true;

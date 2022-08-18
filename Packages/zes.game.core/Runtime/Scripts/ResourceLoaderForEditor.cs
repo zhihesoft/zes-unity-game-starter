@@ -10,24 +10,11 @@ using UnityEngine.SceneManagement;
 
 namespace Zes
 {
-    public class ResourceLoaderForEditor : IResourceLoader
+    public class ResourceLoaderForEditor : ResourceLoader
     {
         static Logger logger = Logger.GetLogger<ResourceLoaderForEditor>();
 
-        public async Task<UnityEngine.Object> LoadAsset(AssetBundle bundle, string path, Type type)
-        {
-            var data = AssetDatabase.LoadAssetAtPath(path, type);
-            await Task.Delay(0);
-            return data;
-        }
-
-        public async Task<AssetBundle> LoadBundle(string name, Action<float> progress)
-        {
-            await Task.Delay(0);
-            return null;
-        }
-
-        public async Task<Scene> LoadScene(string name, bool additive, Action<float> progress)
+        public override async Task<Scene> LoadScene(string name, bool additive, Action<float> progress)
         {
             if (additive)
             {
@@ -51,7 +38,7 @@ namespace Zes
             }
         }
 
-        public async Task<string> LoadText(string path)
+        public override async Task<string> LoadText(string path)
         {
             if (!File.Exists(path))
             {
@@ -65,6 +52,23 @@ namespace Zes
                 await Task.Delay(0);
                 return s;
             }
+        }
+
+        protected override async Task<UnityEngine.Object> LoadAssetProc(string path, Type type)
+        {
+            var data = AssetDatabase.LoadAssetAtPath(path, type);
+            await Task.Delay(0);
+            return data;
+        }
+
+        protected override async Task<AssetBundle> LoadBundleProc(string name, Action<float> progress)
+        {
+            await Task.Delay(0);
+            return null;
+        }
+
+        protected override void UnloadBundleProc(string name)
+        {
         }
     }
 }

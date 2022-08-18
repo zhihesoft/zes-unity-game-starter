@@ -72,7 +72,11 @@ namespace Zes
             logger.Info("App starting");
             instance = this;
             DontDestroyOnLoad(gameObject); // dont destroy
-            loader = new ResourceLoader();
+#if UNITY_EDITOR
+            loader = new ResourceLoaderForEditor();
+#else
+            loader = new ResourceLoaderForRuntime();
+#endif
             Restart();
         }
 
