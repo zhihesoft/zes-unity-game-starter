@@ -71,7 +71,7 @@ namespace Zes
         {
             if (!assets2Bundle.TryGetValue(path, out string bundlename))
             {
-                logger.error($"cannot find a bundle contain path: ({path})");
+                logger.Error($"cannot find a bundle contain path: ({path})");
                 return null;
             }
             await LoadBundle(bundlename);

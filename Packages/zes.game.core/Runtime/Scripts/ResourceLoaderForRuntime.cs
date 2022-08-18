@@ -20,7 +20,7 @@ namespace Zes
         public async Task<AssetBundle> LoadBundle(string name, Action<float> progress)
         {
             name = name.ToLower();
-            logger.info($"begin to load bundle {name}");
+            logger.Info($"begin to load bundle {name}");
             string bundlePath = Path.Combine(App.persistentDataPath, name);
             if (!File.Exists(bundlePath))
             {
@@ -28,7 +28,7 @@ namespace Zes
             }
             if (!File.Exists(bundlePath))
             {
-                logger.error($"cannot find bundle in path: ({bundlePath})");
+                logger.Error($"cannot find bundle in path: ({bundlePath})");
                 return null;
             }
             var bundlereq = AssetBundle.LoadFromFileAsync(bundlePath);
@@ -36,10 +36,10 @@ namespace Zes
             var bundle = bundlereq.assetBundle;
             if (bundle == null)
             {
-                logger.error($"load bundle {name} failed, get null bundle");
+                logger.Error($"load bundle {name} failed, get null bundle");
                 return null;
             }
-            logger.info($"bundle {name} loaded");
+            logger.Info($"bundle {name} loaded");
             return bundle;
         }
 
@@ -63,7 +63,7 @@ namespace Zes
             {
                 if (!File.Exists(path))
                 {
-                    logger.error($"{path} not found");
+                    logger.Error($"{path} not found");
                     return "";
                 }
                 bytes = File.ReadAllBytes(path);

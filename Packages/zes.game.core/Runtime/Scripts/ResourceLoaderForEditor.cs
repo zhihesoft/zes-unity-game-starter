@@ -55,7 +55,7 @@ namespace Zes
         {
             if (!File.Exists(path))
             {
-                logger.error($"{path} not found");
+                logger.Error($"{path} not found");
                 return "";
             }
 

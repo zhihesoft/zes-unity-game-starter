@@ -34,14 +34,14 @@ namespace Zes
 
         private async Task InitJavascriptEnv()
         {
-            loader.UnloadBundle(config.javascriptBundle);
-            await loader.LoadBundle(config.javascriptBundle);
-
             if (jsEnv != null)
             {
                 jsEnv.Dispose();
                 jsEnv = null;
             }
+
+            loader.UnloadBundle(config.javascriptBundle);
+            await loader.LoadBundle(config.javascriptBundle);
 
 #if UNITY_EDITOR
             var env = new JsEnv(new JSLoaderForEditor());
@@ -69,7 +69,7 @@ namespace Zes
 
         private void Start()
         {
-            logger.info("App starting");
+            logger.Info("App starting");
             instance = this;
             DontDestroyOnLoad(gameObject); // dont destroy
             loader = new ResourceLoader();

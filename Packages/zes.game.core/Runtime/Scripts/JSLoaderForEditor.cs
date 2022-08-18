@@ -32,7 +32,7 @@ namespace Zes
 
             var path = Path.Combine(sourcePath, filepath);
             debugpath = path;
-            logger.debug($"load js file: {path}");
+            logger.Debug($"load js file: {path}");
             return File.ReadAllText(path, Encoding.UTF8);
         }
     }

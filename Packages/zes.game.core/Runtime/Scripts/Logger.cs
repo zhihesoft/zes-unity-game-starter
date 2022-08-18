@@ -30,29 +30,29 @@ namespace Zes
 
         private string name;
 
-        private string getMessage(object message)
+        private string GetMessage(object message)
         {
             return $"[{name}] {message}";
         }
 
-        public void info(object message)
+        public void Info(object message)
         {
-            Debug.Log($"[INFO] {getMessage(message)}");
+            UnityEngine.Debug.Log($"[INFO] {GetMessage(message)}");
         }
 
-        public void debug(object message)
+        public void Debug(object message)
         {
-            Debug.Log($"[DEBUG] {getMessage(message)}");
+            UnityEngine.Debug.Log($"[DEBUG] {GetMessage(message)}");
         }
 
-        public void warn(object message)
+        public void Warn(object message)
         {
-            Debug.LogWarning($"[WARN] {getMessage(message)}");
+            UnityEngine.Debug.LogWarning($"[WARN] {GetMessage(message)}");
         }
 
-        public void error(object message)
+        public void Error(object message)
         {
-            Debug.LogError($"[ERROR] {getMessage(message)}");
+            UnityEngine.Debug.LogError($"[ERROR] {GetMessage(message)}");
         }
     }
 }
