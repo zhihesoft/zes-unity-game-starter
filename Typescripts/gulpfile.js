@@ -19,7 +19,7 @@ function build() {
     })
         .plugin(tsify)
         .bundle()
-        .pipe(source('main.mjs'))
+        .pipe(source('main.bytes'))
         .pipe(buffer())
         .pipe(sourcemaps.init({ loadMaps: true }))
         .pipe(uglify({

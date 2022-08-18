@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Zes
@@ -41,17 +37,22 @@ namespace Zes
 
         public void info(object message)
         {
-            Debug.Log($"[INF] {getMessage(message)}");
+            Debug.Log($"[INFO] {getMessage(message)}");
+        }
+
+        public void debug(object message)
+        {
+            Debug.Log($"[DEBUG] {getMessage(message)}");
         }
 
         public void warn(object message)
         {
-            Debug.LogWarning($"[WRN] {getMessage(message)}");
+            Debug.LogWarning($"[WARN] {getMessage(message)}");
         }
 
         public void error(object message)
         {
-            Debug.LogError($"[ERR] {getMessage(message)}");
+            Debug.LogError($"[ERROR] {getMessage(message)}");
         }
     }
 }

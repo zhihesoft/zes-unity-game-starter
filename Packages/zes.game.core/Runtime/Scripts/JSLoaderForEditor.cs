@@ -7,9 +7,9 @@ namespace Zes
     public class JSLoaderForEditor : ILoader
     {
         private ILoader defaultLoader = new DefaultLoader();
-        private const string sourcePath = "ts-source";
+        private string sourcePath = App.config.javascriptPathEditor;
         private const string puertsPrefix = "puerts";
-        // private static Logger logger = Logger.getLogger<JSLoaderForEditor>();
+        private static Logger logger = Logger.GetLogger<JSLoaderForEditor>();
 
         public bool FileExists(string filepath)
         {
@@ -32,7 +32,7 @@ namespace Zes
 
             var path = Path.Combine(sourcePath, filepath);
             debugpath = path;
-
+            logger.debug($"load js file: {path}");
             return File.ReadAllText(path, Encoding.UTF8);
         }
     }

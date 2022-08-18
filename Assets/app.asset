@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   patchDataPath: patch_data
   javascriptPathEditor: Typescripts
-  javascriptEntryEditor: ./dist/index.cjs
+  javascriptEntryEditor: ./dist/index.js
   javascriptBundle: texts
-  javascriptPathRuntime: Assets/Bundles/texts/main.cjs
+  javascriptPathRuntime: Assets/Bundles/texts/main.bytes
   javascriptEntryRuntime: main

@@ -9,11 +9,11 @@ namespace Zes
 
         [Header("Javascript Editor Settings")]
         public string javascriptPathEditor = "Typescripts";
-        public string javascriptEntryEditor = "./dist/index.cjs";
+        public string javascriptEntryEditor = "./dist/index.js";
 
         [Header("Javascript Runtime Settings")]
         public string javascriptBundle = "texts";
-        public string javascriptPathRuntime = "Assets/Bundles/texts/main.cjs";
+        public string javascriptPathRuntime = "Assets/Bundles/texts/main.bytes";
         public string javascriptEntryRuntime = "main";
     }
 }
