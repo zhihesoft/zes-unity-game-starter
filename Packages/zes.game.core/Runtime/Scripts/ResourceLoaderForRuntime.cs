@@ -21,7 +21,7 @@ namespace Zes
         {
             name = name.ToLower();
             logger.info($"begin to load bundle {name}");
-            string bundlePath = Path.Combine(App.instance.persistentDataPath, name);
+            string bundlePath = Path.Combine(App.persistentDataPath, name);
             if (!File.Exists(bundlePath))
             {
                 bundlePath = Path.Combine(Application.streamingAssetsPath, name);

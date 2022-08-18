@@ -13,3 +13,7 @@ MonoBehaviour:
   m_Name: app
   m_EditorClassIdentifier: 
   patchDataPath: patch_data
+  javascriptPathEditor: Assets/Typescripts
+  javascriptEntryEditor: ./dist/index.cjs
+  javascriptPathRuntime: Assets/Bundles/texts/main.cjs
+  javascriptEntryRuntime: main

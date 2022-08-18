@@ -6,5 +6,14 @@ namespace Zes
     public class AppConfig : ScriptableObject
     {
         public string patchDataPath = "patch_data";
+
+        [Header("Javascript Editor Settings")]
+        public string javascriptPathEditor = "Assets/Typescripts";
+        public string javascriptEntryEditor = "./dist/index.cjs";
+
+        [Header("Javascript Runtime Settings")]
+        public string javascriptBundle = "texts";
+        public string javascriptPathRuntime = "Assets/Bundles/texts/main.cjs";
+        public string javascriptEntryRuntime = "main";
     }
 }

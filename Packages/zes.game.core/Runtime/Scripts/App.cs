@@ -8,52 +8,79 @@ namespace Zes
     /// <summary>
     /// ZES App
     /// </summary>
-    public abstract class App : MonoBehaviour
+    public class App : MonoBehaviour
     {
-        private static Logger logger = Logger.GetLogger<App>();
-        public static App instance { get; private set; }
-
-        public JsEnv env { get; private set; }
-        public abstract string jsPath { get; }
-        public bool inEditor { get; private set; }
-        public virtual string persistentDataPath
+        public static AppConfig config => instance.appConfig;
+        public static string persistentDataPath => Path.Combine(Application.persistentDataPath, config.patchDataPath);
+        public static bool inEditor
         {
             get
             {
-                return Path.Combine(Application.persistentDataPath, "patch_data");
+#if UNITY_EDITOR
+                return true;
+#else
+                return false;
+#endif
             }
         }
+        public static ResourceLoader loader { get; private set; }
 
-        public async void Init()
+        private static App instance;
+        private static Logger logger = Logger.GetLogger<App>();
+        private static JsEnv jsEnv;
+
+        public AppConfig appConfig;
+
+
+        private async Task InitJavascriptEnv()
         {
-            await OnInit(jsPath);
+            loader.UnloadBundle(config.javascriptBundle);
+            await loader.LoadBundle(config.javascriptBundle);
+
+            if (jsEnv != null)
+            {
+                jsEnv.Dispose();
+                jsEnv = null;
+            }
+
+#if UNITY_EDITOR
+            var env = new JsEnv(new JSLoaderForEditor());
+            string script = config.javascriptEntryEditor;
+#else
+            var env = new JsEnv(new JSLoaderForBundle());
+            string script = config.javascriptEntryRuntime;
+#endif
+            env.UsingAction<bool>();
+            env.UsingAction<float>();
+            env.UsingAction<string>();
+            env.UsingAction<string, string>();
+            env.UsingAction<Vector2>();
+            env.UsingAction<Vector3>();
+            env.UsingFunc<string, string>();
+            env.Eval($"require('{script}');");
+
+            jsEnv = env;
         }
 
-        public void Restart()
+        public async void Restart()
         {
-
+            await InitJavascriptEnv();
         }
-
-        protected abstract Task<bool> OnInit(string jsPath);
-
 
         private void Start()
         {
+            logger.info("App starting");
             instance = this;
-
-#if UNITY_EDITOR
-            inEditor = true;
-#endif
-            logger.info($"App starting. ");
             DontDestroyOnLoad(gameObject); // dont destroy
-            Init();
+            loader = new ResourceLoader();
+            Restart();
         }
 
         private void Update()
         {
-            if (env != null)
+            if (jsEnv != null)
             {
-                env.Tick();
+                jsEnv.Tick();
             }
         }
     }

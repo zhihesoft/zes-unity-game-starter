@@ -11,10 +11,9 @@ namespace Zes
         private static Logger logger = Logger.GetLogger<JSLoaderForBundle>();
         private string scripts = "";
 
-        public async Task<bool> Init(IResourceLoader resource)
+        public async Task<bool> Init(ResourceLoader loader)
         {
-            var bundle = await resource.LoadBundle("data", null);
-            var req = await resource.LoadAsset(bundle, "Assets/Bundles/data/main.mjs", typeof(TextAsset));
+            var req = await loader.LoadAsset(App.config.javascriptPathRuntime, typeof(TextAsset));
             var text = req as TextAsset;
             scripts = text.text;
             if (string.IsNullOrEmpty(scripts))
