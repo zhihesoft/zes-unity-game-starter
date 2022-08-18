@@ -1,7 +1,11 @@
 {
     "name": "zes.game.core.Editor",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+		"zes.game.core",
+		"com.tencent.puerts.core",
+		"com.tencent.puerts.core.Editor"
+	],
     "includePlatforms": [
         "Editor"
     ],

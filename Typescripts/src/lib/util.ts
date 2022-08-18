@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { Liv, UnityEngine } from "csharp";
+import { UnityEngine } from "csharp";
 import _ from "lodash";
 
 export class RequestError {
@@ -34,25 +34,6 @@ export function waitUntil(condition: () => boolean): Promise<void> {
             }
         };
         fun();
-    });
-}
-
-export function waitRequest<T = any>(req: Liv.AsyncRequest): Promise<T> {
-
-    return new Promise<T>((resolve, reject) => {
-        const callback = () => {
-            if (req.error) {
-                reject(new RequestError(req.error, req.message));
-            } else {
-                resolve(req.data);
-            }
-        }
-
-        if (req.completed) {
-            callback();
-        } else {
-            req.onCompleted = () => callback();
-        }
     });
 }
 

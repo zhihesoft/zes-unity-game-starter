@@ -19,18 +19,18 @@ export class Logger {
     }
 
     debug(message: string | object) {
-        console.log(`[debug] ${this.getMessage(message)}`);
+        console.log(`[DEBUG] ${this.getMessage(message)}`);
     }
 
     info(message: string | object) {
-        console.log(`[info] ${this.getMessage(message)}`);
+        console.log(`[INFO] ${this.getMessage(message)}`);
     }
 
     warn(message: string | object) {
-        console.warn(`[warn] ${this.getMessage(message)}`);
+        console.warn(`[WARN] ${this.getMessage(message)}`);
     }
 
     error(message: string | object) {
-        console.error(`[error] ${this.getMessage(message)}`);
+        console.error(`[ERROR] ${this.getMessage(message)}`);
     }
 }
