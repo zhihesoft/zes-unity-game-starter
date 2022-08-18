@@ -176,6 +176,12 @@
       "dependencies": {},
       "url": "https://package.openupm.com"
     },
+    "zes.game.core": {
+      "version": "file:zes.game.core",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.unity.modules.ai": {
       "version": "1.0.0",
       "depth": 0,
