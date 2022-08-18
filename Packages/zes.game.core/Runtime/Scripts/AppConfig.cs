@@ -8,7 +8,7 @@ namespace Zes
         public string patchDataPath = "patch_data";
 
         [Header("Javascript Editor Settings")]
-        public string javascriptPathEditor = "Assets/Typescripts";
+        public string javascriptPathEditor = "Typescripts";
         public string javascriptEntryEditor = "./dist/index.cjs";
 
         [Header("Javascript Runtime Settings")]

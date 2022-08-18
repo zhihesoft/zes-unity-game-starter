@@ -4,8 +4,8 @@
 #
 Assets/Gen.meta
 Assets/Gen/
-Assets/zes.game.core/typescripts/dist/
-Assets/zes.game.core/typescripts/node_modules/
+Typescripts/dist/
+Typescripts/node_modules/
 .vsconfig
 /[Ll]ibrary/
 /[Tt]emp/

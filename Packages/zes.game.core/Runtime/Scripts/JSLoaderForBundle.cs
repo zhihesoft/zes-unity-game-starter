@@ -18,7 +18,7 @@ namespace Zes
             scripts = text.text;
             if (string.IsNullOrEmpty(scripts))
             {
-                logger.error($"cannot find main.mjs");
+                logger.error($"cannot find {App.config.javascriptPathRuntime}");
                 return false;
             }
             return true;
