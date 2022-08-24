@@ -30,6 +30,7 @@ namespace Zes
         private static JsEnv jsEnv;
 
         public AppConfig appConfig;
+        public AppInit appInit;
 
 
         private async Task InitJavascriptEnv()
@@ -57,6 +58,9 @@ namespace Zes
             env.UsingAction<Vector2>();
             env.UsingAction<Vector3>();
             env.UsingFunc<string, string>();
+
+            appInit?.OnInit(env);
+
             env.Eval($"require('{script}');");
 
             jsEnv = env;
