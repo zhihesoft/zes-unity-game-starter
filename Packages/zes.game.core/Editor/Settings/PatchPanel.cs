@@ -1,12 +1,7 @@
-﻿using UnityEditor;
-
-namespace Zes.Settings
+﻿namespace Zes.Settings
 {
     public class PatchPanel : SettingPanel
     {
-        public PatchPanel(AppConfig config) : base(config)
-        {
-        }
 
         public override string Name => "Patch";
 
@@ -16,7 +11,9 @@ namespace Zes.Settings
 
         public override void OnGUI()
         {
-            config.patchDataPath = TextField("patch data path", config.patchDataPath);
+            config.patchServer = TextField("Patch server", config.patchServer);
+            config.minVersion = TextField("Minimun version", config.minVersion);
+            config.patchDataPath = TextField("Patch data path", config.patchDataPath);
         }
     }
 }

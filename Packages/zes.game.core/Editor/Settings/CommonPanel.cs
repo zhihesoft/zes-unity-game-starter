@@ -2,10 +2,6 @@
 {
     public class CommonPanel : SettingPanel
     {
-        public CommonPanel(AppConfig config) : base(config)
-        {
-        }
-
         public override string Name => "Common";
 
         public override string DisplayName => "Common";
@@ -14,7 +10,10 @@
 
         public override void OnGUI()
         {
+            config.loginServer = TextField("Login server", config.loginServer);
+            config.allowGuest = BoolField("Allow guest", config.allowGuest);
             config.appLanguage = TextField("App language", config.appLanguage);
+            config.checkUpdate = BoolField("Check update", config.checkUpdate);
         }
     }
 }

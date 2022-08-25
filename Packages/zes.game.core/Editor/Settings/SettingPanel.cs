@@ -9,18 +9,14 @@ namespace Zes.Settings
 {
     public abstract class SettingPanel
     {
-        public SettingPanel(AppConfig config)
-        {
-            this.config = config;
-        }
-
         public abstract string Name { get; }
         public abstract string DisplayName { get; }
         public abstract string Description { get; }
 
         public bool dirty { get; set; }
 
-        protected AppConfig config;
+        public AppConfig config { get; set; }
+        public PlatformConfig platformConfig { get; set; }
 
         /// <summary>
         /// render gui
@@ -34,6 +30,16 @@ namespace Zes.Settings
         protected string TextField(string label, string value)
         {
             var ret = EditorGUILayout.TextField(label, value);
+            if (!dirty)
+            {
+                dirty = ret != value;
+            }
+            return ret;
+        }
+
+        protected bool BoolField(string label, bool value)
+        {
+            var ret = EditorGUILayout.Toggle(label, value);
             if (!dirty)
             {
                 dirty = ret != value;
