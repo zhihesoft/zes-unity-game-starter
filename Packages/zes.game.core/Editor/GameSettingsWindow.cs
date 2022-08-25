@@ -1,23 +1,40 @@
-﻿using ICSharpCode.SharpZipLib.Zip;
-// using Liv;
+﻿// using Liv;
 using System.IO;
-using System.Linq;
-using System.Text;
-using UnityEditor;
 using UnityEngine;
+using UnityEditor;
+using Zes;
+using System.Text;
+using Zes.Settings;
 
-namespace ZEditor
+namespace Zes
 {
     public class GameSettingsWindow : EditorWindow
     {
-        //        [MenuItem("SKIN/游戏设置")]
-        //        public static void ShowGameSettingsWindow()
-        //        {
-        //            var window = GetWindow<GameSettingsWindow>("游戏设置");
-        //            window.Show();
-        //            window.minSize = new Vector2(800, 600);
-        //            window.Initialize();
-        //        }
+
+        [MenuItem("ZES/游戏设置", priority = 1)]
+        public static void ShowGameSettingsWindow()
+        {
+            var window = GetWindow<GameSettingsWindow>("游戏设置");
+            window.Show();
+            window.minSize = new Vector2(800, 600);
+            window.Initialize();
+        }
+
+        private SettingsManager<AppConfig> manager;
+
+        void Initialize()
+        {
+            if (manager == null)
+            {
+                manager = new SettingsManager<AppConfig>();
+                manager.Initialize();
+            }
+        }
+
+        private void OnGUI()
+        {
+            manager.OnGUI();
+        }
 
         //        void Initialize()
         //        {

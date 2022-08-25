@@ -6,7 +6,7 @@ namespace ZEditor
 {
     public class OpenTSProject
     {
-        [MenuItem("SKIN/打开TS工程")]
+        [MenuItem("ZES/打开TS工程")]
         public static void Open()
         {
             ProcessStartInfo info = new ProcessStartInfo();
@@ -16,7 +16,7 @@ namespace ZEditor
             Process.Start(info);
         }
 
-        [MenuItem("SKIN/打开C#工程")]
+        [MenuItem("ZES/打开C#工程")]
         public static void OpenCSharp()
         {
             EditorApplication.ExecuteMenuItem("Assets/Open C# Project");

@@ -7,7 +7,7 @@ namespace Zes
     public class JSLoaderForEditor : ILoader
     {
         private ILoader defaultLoader = new DefaultLoader();
-        private string sourcePath = App.config.javascriptPathEditor;
+        private string sourcePath = ""; // TODO: add source path here // App.config.javascriptPathEditor;
         private const string puertsPrefix = "puerts";
         private static Logger logger = Logger.GetLogger<JSLoaderForEditor>();
 
