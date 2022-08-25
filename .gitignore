@@ -6,6 +6,7 @@ Assets/Gen.meta
 Assets/Gen/
 Typescripts/dist/
 Typescripts/node_modules/
+Typescripts/out/
 .vsconfig
 /[Ll]ibrary/
 /[Tt]emp/

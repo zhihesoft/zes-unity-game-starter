@@ -345,4 +345,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e021db6ce9f90704da9fb103e1c2f019, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  appConfig: {fileID: 11400000, guid: 5cd8a1a389c3ab64f8abbbe06f4ff839, type: 2}
+  appInit: {fileID: 0}
+  bootConfig: {fileID: 4900000, guid: c22b5be65b45a5445b34cf081105a08b, type: 3}

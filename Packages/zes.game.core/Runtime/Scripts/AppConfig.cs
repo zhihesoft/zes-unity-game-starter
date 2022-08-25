@@ -1,21 +1,68 @@
-﻿using UnityEngine;
+﻿using System;
 
 namespace Zes
 {
-    [CreateAssetMenu(fileName = "app", menuName = "ZES/AppConfig", order = 1)]
-    public class AppConfig : ScriptableObject
+    [Serializable]
+    public class AppConfig
     {
-        public int maxCachedAsset = 512;
+        /// <summary>
+        /// Config name
+        /// </summary>
+        public string name = "";
 
+        /// <summary>
+        /// Config description
+        /// </summary>
+        public string description = "";
+
+        /// <summary>
+        /// App language
+        /// </summary>
+        public string appLanguage = "zh-cn";
+
+        /// <summary>
+        /// Game login server
+        /// </summary>
+        public string loginServer = "";
+
+        /// <summary>
+        /// Allow guest login
+        /// </summary>
+        public bool allowGuest = false;
+
+        /// <summary>
+        /// Patch server 
+        /// </summary>
+        public string patchServer = "";
+
+        /// <summary>
+        /// Mininmun version
+        /// </summary>
+        public string minVersion = "";
+
+        /// <summary>
+        /// if check update
+        /// </summary>
+        public bool checkUpdate = true;
+
+        /// <summary>
+        /// patch data path in device
+        /// </summary>
         public string patchDataPath = "patch_data";
 
-        [Header("Javascript Editor Settings")]
-        public string javascriptPathEditor = "Typescripts";
+        /// <summary>
+        /// Typescript project path, relative to project root dir
+        /// </summary>
+        public string typescriptProjectPath = "Typescripts";
+
+        /// <summary>
+        /// javascript entry for editor
+        /// </summary>
         public string javascriptEntryEditor = "./dist/index.js";
 
-        [Header("Javascript Runtime Settings")]
-        public string javascriptBundle = "texts";
-        public string javascriptPathRuntime = "Assets/Bundles/texts/main.bytes";
-        public string javascriptEntryRuntime = "main";
+        /// <summary>
+        /// javascript entry for runtime
+        /// </summary>
+        public string javascriptEntryRuntime = "text:Assets/Bundles/texts/main.bytes";
     }
 }

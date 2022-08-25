@@ -29,8 +29,8 @@ namespace Zes
         private static Logger logger = Logger.GetLogger<App>();
         private static JsEnv jsEnv;
 
-        public AppConfig appConfig;
-
+        public AppInit appInit;
+        protected AppConfig appConfig;
 
         private async Task InitJavascriptEnv()
         {
@@ -40,8 +40,8 @@ namespace Zes
                 jsEnv = null;
             }
 
-            loader.UnloadBundle(config.javascriptBundle);
-            await loader.LoadBundle(config.javascriptBundle);
+            //loader.UnloadBundle(config.javascriptBundle);
+            //await loader.LoadBundle(config.javascriptBundle);
 
 #if UNITY_EDITOR
             var env = new JsEnv(new JSLoaderForEditor());
@@ -57,6 +57,9 @@ namespace Zes
             env.UsingAction<Vector2>();
             env.UsingAction<Vector3>();
             env.UsingFunc<string, string>();
+
+            appInit?.OnInit(env);
+
             env.Eval($"require('{script}');");
 
             jsEnv = env;

@@ -8,19 +8,22 @@ namespace Zes
     {
         private ILoader defaultLoader = new DefaultLoader();
         private const string puertsPrefix = "puerts";
+        private const string jsbundle = "jsbundle";
         private static Logger logger = Logger.GetLogger<JSLoaderForBundle>();
         private string scripts = "";
 
         public async Task<bool> Init(ResourceLoader loader)
         {
-            var req = await loader.LoadAsset(App.config.javascriptPathRuntime, typeof(TextAsset));
-            var text = req as TextAsset;
-            scripts = text.text;
-            if (string.IsNullOrEmpty(scripts))
-            {
-                logger.Error($"cannot find {App.config.javascriptPathRuntime}");
-                return false;
-            }
+            // TODO: add init
+            //var bundle = await loader.LoadBundle(jsbundle);
+            //var req = await loader.LoadAsset(bundle, App.config.javascriptPathRuntime, typeof(TextAsset));
+            //var text = req as TextAsset;
+            //scripts = text.text;
+            //if (string.IsNullOrEmpty(scripts))
+            //{
+            //    logger.Error($"cannot find {App.config.javascriptPathRuntime}");
+            //    return false;
+            //}
             return true;
         }
 

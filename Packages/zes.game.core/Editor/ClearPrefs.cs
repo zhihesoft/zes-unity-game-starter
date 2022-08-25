@@ -5,7 +5,7 @@ namespace ZEditor
 {
     public class ClearPrefs
     {
-        [MenuItem("SKIN/Util/Clear PlayerPrefs")]
+        [MenuItem("ZES/Util/Clear PlayerPrefs")]
         public static void ClearPlayerPrefs()
         {
             PlayerPrefs.DeleteAll();

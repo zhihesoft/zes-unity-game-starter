@@ -3,14 +3,13 @@ using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEngine;
 
-namespace ZEditor
+namespace Zes
 {
     public static class BuildApk
     {
-
         public static void Build(string path, int bundleCode, PlatformConfig buildConfig)
         {
-            if (EditorApplication.isPlaying)
+            if (EditorApplication.isPlaying || EditorApplication.isCompiling)
             {
                 EditorUtility.DisplayDialog("错误", "运行中无法构建", "OK");
                 return;
@@ -70,14 +69,8 @@ namespace ZEditor
 
         static void SetPlayerSettings(int bundleCode, PlatformConfig buildConfig)
         {
-            PlayerSettings.companyName = buildConfig.company;
-            PlayerSettings.productName = buildConfig.productName;
-            PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.Android, buildConfig.applicationId);
-            PlayerSettings.Android.keystoreName = buildConfig.keystore;
-            PlayerSettings.Android.keystorePass = buildConfig.keystorePassword;
-            PlayerSettings.Android.keyaliasName = buildConfig.keyAlias;
-            PlayerSettings.Android.keyaliasPass = buildConfig.keyAliasPassword;
-            PlayerSettings.Android.targetSdkVersion = buildConfig.targetSdkVersion;
+            PlayerSettings.Android.keystorePass = buildConfig.androidKeystorePassword;
+            PlayerSettings.Android.keyaliasPass = buildConfig.androidKeyAliasPassword;
             PlayerSettings.Android.bundleVersionCode = bundleCode;
         }
 

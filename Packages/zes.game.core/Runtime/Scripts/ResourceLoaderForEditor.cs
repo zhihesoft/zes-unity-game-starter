@@ -1,4 +1,6 @@
-﻿using System;
+﻿#if UNITY_EDITOR
+
+using System;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,26 +18,18 @@ namespace Zes
 
         public override async Task<Scene> LoadScene(string name, bool additive, Action<float> progress)
         {
-            if (additive)
+            Scene loadedScene = default(Scene);
+            UnityAction<Scene, LoadSceneMode> callback = (scene, mode) =>
             {
-                Scene loadedScene = default(Scene);
-                UnityAction<Scene, LoadSceneMode> callback = (scene, mode) =>
-                {
-                    loadedScene = scene;
-                };
-                SceneManager.sceneLoaded += callback;
+                loadedScene = scene;
+            };
+            SceneManager.sceneLoaded += callback;
 
-                var op = EditorSceneManager.LoadSceneAsyncInPlayMode(name, new LoadSceneParameters(LoadSceneMode.Additive));
-                await Util.WaitAsyncOperation(op, progress);
-                SceneManager.sceneLoaded -= callback;
-                return loadedScene;
-            }
-            else
-            {
-                var op = SceneManager.LoadSceneAsync(name);
-                await Util.WaitAsyncOperation(op, progress);
-                return default(Scene);
-            }
+            var op = EditorSceneManager.LoadSceneAsyncInPlayMode(name,
+                new LoadSceneParameters(additive ? LoadSceneMode.Additive : LoadSceneMode.Single));
+            await Util.WaitAsyncOperation(op, progress);
+            SceneManager.sceneLoaded -= callback;
+            return loadedScene;
         }
 
         public override async Task<string> LoadText(string path)
@@ -54,21 +48,24 @@ namespace Zes
             }
         }
 
-        protected override async Task<UnityEngine.Object> LoadAssetProc(string path, Type type)
+        public override async Task<UnityEngine.Object> LoadAsset(AssetBundle bundle, string path, Type type)
         {
             var data = AssetDatabase.LoadAssetAtPath(path, type);
             await Task.Delay(0);
             return data;
         }
 
-        protected override async Task<AssetBundle> LoadBundleProc(string name, Action<float> progress)
+        public override async Task<AssetBundle> LoadBundle(string name, Action<float> progress)
         {
             await Task.Delay(0);
+            progress?.Invoke(1);
             return null;
         }
 
-        protected override void UnloadBundleProc(string name)
+        public override void UnloadBundle(AssetBundle bundle)
         {
         }
     }
 }
+
+#endif

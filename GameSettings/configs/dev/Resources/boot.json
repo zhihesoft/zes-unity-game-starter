@@ -1,0 +1,9 @@
+{
+    "name": "dev",
+    "patchServer": "http://101.35.203.136:12082/",
+    "loginServer": "http://101.35.203.136:12081/",
+    "checkUpdate": false,
+	"language": 0,
+    "allowGuest": true,
+	"minVersion": "1.0.0"
+}

@@ -4,11 +4,11 @@ using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
 
-namespace ZEditor
+namespace Zes
 {
     public static class NestAnimator
     {
-        [MenuItem("SKIN/Util/Nest AnimClips in Controller", true)]
+        [MenuItem("ZES/Util/Nest AnimClips in Controller", true)]
         public static bool NestAnimClipsValidate()
         {
             if (Selection.activeObject == null)
@@ -16,7 +16,7 @@ namespace ZEditor
             return Selection.activeObject.GetType() == typeof(AnimatorController);
         }
 
-        [MenuItem("SKIN/Util/Nest AnimClips in Controller")]
+        [MenuItem("ZES/Util/Nest AnimClips in Controller")]
         public static void NestAnimClips(MenuCommand command)
         {
             AnimatorController anim_controller = (AnimatorController)Selection.activeObject;
