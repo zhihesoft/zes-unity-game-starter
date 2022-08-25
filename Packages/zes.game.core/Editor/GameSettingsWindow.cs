@@ -33,7 +33,11 @@ namespace Zes
 
         private void OnGUI()
         {
-            manager.OnGUI();
+            if (manager == null)
+            {
+                Initialize();
+            }
+            manager?.OnGUI();
         }
 
         //        void Initialize()
