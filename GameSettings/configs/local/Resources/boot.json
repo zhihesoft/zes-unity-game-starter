@@ -1,0 +1,9 @@
+{
+    "name": "local",
+    "loginServer": "http://localhost:3000/",
+    "patchServer": "http://localhost:3001/",
+    "checkUpdate": false,
+	"language": 0,
+    "allowGuest": true,
+	"minVersion": "1.0.0"
+}
