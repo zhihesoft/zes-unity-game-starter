@@ -42,10 +42,40 @@ namespace Zes
         /// </summary>
         public bool checkUpdate = true;
 
-        public static AppConfig Load()
-        {
-            var txt = Resources.Load<TextAsset>("boot");
-            return JsonUtility.FromJson<AppConfig>(txt.text);
-        }
+        /// <summary>
+        /// patch data path in device
+        /// </summary>
+        public string patchDataPath = "patch_data";
+
+        /// <summary>
+        /// patch info file name
+        /// </summary>
+        public string patchInfoFile = "patch.json";
+
+        /// <summary>
+        /// version info file name
+        /// </summary>
+        public string versionInfoFile = "version.json";
+
+        /// <summary>
+        /// Typescript project path, relative to project root dir
+        /// </summary>
+        public string typescriptProjectPath = "Typescripts";
+
+        /// <summary>
+        /// javascript entry for editor
+        /// </summary>
+        public string javascriptEntryEditor = "./dist/index.js";
+
+        /// <summary>
+        /// javascript entry for runtime
+        /// </summary>
+        public string javascriptBundle = "text";
+
+        /// <summary>
+        /// javascript entry for runtime
+        /// </summary>
+        public string javascriptEntryRuntime = "Assets/Bundles/texts/main.bytes";
+
     }
 }

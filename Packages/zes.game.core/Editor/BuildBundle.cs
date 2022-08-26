@@ -22,9 +22,7 @@ namespace Zes
 
         BundleBuilder(BuildTarget target)
         {
-            appConfig = AppConfig.Load();
-            appProp = AssetDatabase.LoadAssetAtPath<AppProp>("app.asset"); // AppProp.Load();
-            Debug.Assert(appProp != null, "app.asset should existed");
+            appConfig = EditorHelper.LoadAppConfig(); // AppConfig.Load();
 
             this.target = target;
 #if USING_AAB
@@ -42,7 +40,6 @@ namespace Zes
         }
 
         readonly AppConfig appConfig;
-        readonly AppProp appProp;
         readonly BuildTarget target;
         readonly int buildNo;
         readonly bool copyToStreaming;
@@ -76,7 +73,7 @@ namespace Zes
             vi.url = appConfig.patchServer + targetName.ToLower();
             vi.version = Application.version + "." + buildNo;
             vi.minVersion = appConfig.minVersion;
-            vi.Save(Path.Combine(bundlesDir, appProp.versionInfoFile));
+            vi.Save(Path.Combine(bundlesDir, appConfig.versionInfoFile));
             return vi;
         }
 
@@ -94,7 +91,7 @@ namespace Zes
                 })
                 .ToArray();
 
-            string path = Path.Combine(bundlesDir, appProp.patchDataPath);
+            string path = Path.Combine(bundlesDir, appConfig.patchDataPath);
             pi.Save(path);
             return pi;
         }
@@ -124,8 +121,8 @@ namespace Zes
                     File.Copy(fullpath, Path.Combine(streamingDir, file.path));
                 }
             }
-            File.Copy(Path.Combine(bundlesDir, appProp.versionInfoFile), Path.Combine(streamingDir, appProp.versionInfoFile), true);
-            File.Copy(Path.Combine(bundlesDir, appProp.patchInfoFile), Path.Combine(streamingDir, appProp.patchInfoFile), true);
+            File.Copy(Path.Combine(bundlesDir, appConfig.versionInfoFile), Path.Combine(streamingDir, appConfig.versionInfoFile), true);
+            File.Copy(Path.Combine(bundlesDir, appConfig.patchInfoFile), Path.Combine(streamingDir, appConfig.patchInfoFile), true);
         }
 
         void ClearDirs()

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEditor;
+﻿using UnityEditor;
 
 namespace Zes.Settings
 {
@@ -15,8 +10,7 @@ namespace Zes.Settings
 
         public bool dirty { get; set; }
 
-        public AppConfig config { get; set; }
-        public PlatformConfig platformConfig { get; set; }
+        public SettingsManager manager { get; set; }
 
         /// <summary>
         /// render gui

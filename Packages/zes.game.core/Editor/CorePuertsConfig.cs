@@ -51,13 +51,14 @@ namespace Zes
                     typeof(UnityEngine.AI.NavMeshAgent),
 
                     typeof(App),
+                    typeof(AppConfig),
                 };
             }
         }
 
-        static Dictionary<Type, string[]> filters = new Dictionary<Type, string[]>
+        static Dictionary<Type, Dictionary<string, bool>> filters = new Dictionary<Type, Dictionary<string, bool>>
         {
-            { typeof(UnityEngine.UI.Graphic), new string []{ "OnRebuildRequested" } }
+            { typeof(UnityEngine.UI.Graphic), new Dictionary<string, bool>{ { "OnRebuildRequested", true } } },
         };
 
         [Filter]
@@ -65,9 +66,7 @@ namespace Zes
         {
             if (filters.TryGetValue(memberInfo.DeclaringType, out var methods))
             {
-                bool ret = methods.ToList().Contains(memberInfo.Name);
-                // Debug.Log($"type {memberInfo.Name} check on {memberInfo.DeclaringType.FullName} ret is {ret}");
-                return ret;
+                return methods.ContainsKey(memberInfo.Name);
             }
             else
             {

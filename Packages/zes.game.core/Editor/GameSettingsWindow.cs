@@ -17,13 +17,13 @@ namespace Zes
             window.Initialize();
         }
 
-        private SettingsManager<AppConfig> manager;
+        private SettingsManager manager;
 
         void Initialize()
         {
             if (manager == null)
             {
-                manager = new SettingsManager<AppConfig>();
+                manager = new SettingsManager();
                 manager.Initialize();
             }
         }

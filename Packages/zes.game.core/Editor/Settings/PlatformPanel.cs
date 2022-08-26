@@ -10,8 +10,8 @@
 
         public override void OnGUI()
         {
-            platformConfig.androidKeystorePassword = TextField("Android keystore pwd", platformConfig.androidKeystorePassword);
-            platformConfig.androidKeyAliasPassword = TextField("Android keyalias pwd", platformConfig.androidKeyAliasPassword);
+            manager.platformConfig.androidKeystorePassword = TextField("Android keystore pwd", manager.platformConfig.androidKeystorePassword);
+            manager.platformConfig.androidKeyAliasPassword = TextField("Android keyalias pwd", manager.platformConfig.androidKeyAliasPassword);
         }
     }
 }

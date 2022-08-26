@@ -4,6 +4,13 @@
     "loginServer": "http://localhost:3000/",
     "allowGuest": true,
     "patchServer": "http://localhost:3001/",
-    "minVersion": "1.0.0",
-    "checkUpdate": false
+    "minVersion": "0.0.0",
+    "checkUpdate": false,
+    "patchDataPath": "patch_data",
+    "patchInfoFile": "patch.json",
+    "versionInfoFile": "version.json",
+    "typescriptProjectPath": "Typescripts",
+    "javascriptEntryEditor": "./dist/index.js",
+    "javascriptBundle": "text",
+    "javascriptEntryRuntime": "Assets/Bundles/texts/main.bytes"
 }

@@ -7,18 +7,17 @@ namespace ZEditor
 {
     public static class BuildTextAssets
     {
-        public static string configPath
+        public static string excelsPath
         {
             get
             {
-                return EditorPrefs.GetString("configPathKey", "");
+                return EditorPrefs.GetString("excelFilesPathKey", "");
             }
             set
             {
-                EditorPrefs.SetString("configPathKey", value);
+                EditorPrefs.SetString("excelFilesPathKey", value);
             }
         }
-
 
         public static void Build()
         {
@@ -32,7 +31,7 @@ namespace ZEditor
             js.CopyTo(Path.Combine("Assets", "Bundles", "data", "main.mjs"), true);
 
             // copy jsons to data dir
-            DirectoryInfo dir = new DirectoryInfo(Path.Combine(configPath, "json", "client"));
+            DirectoryInfo dir = new DirectoryInfo(Path.Combine(excelsPath, "json", "client"));
             var jsons = dir.GetFiles()
                 .Where(f => f.Extension == ".json")
                 .ToList();
@@ -51,7 +50,7 @@ namespace ZEditor
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.WorkingDirectory = "ts-source";
             startInfo.FileName = "gulp";
-            startInfo.Arguments = $"build";
+            startInfo.Arguments = "build";
             var proc = Process.Start(startInfo);
             proc.WaitForExit();
 
@@ -66,16 +65,16 @@ namespace ZEditor
 
         private static bool BuildJsons()
         {
-            if (!Directory.Exists(configPath))
+            if (!Directory.Exists(excelsPath))
             {
-                UnityEngine.Debug.LogError($"{configPath} not exists !!");
+                UnityEngine.Debug.LogError($"{excelsPath} not exists !!");
                 return false;
             }
 
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.WorkingDirectory = Path.Combine("..", "skin-conv");
             startInfo.FileName = "npm";
-            startInfo.Arguments = $"start {Path.Combine(configPath, "excel")}";
+            startInfo.Arguments = $"start {Path.Combine(excelsPath, "excel")}";
             var proc = Process.Start(startInfo);
             proc.WaitForExit();
 
@@ -88,15 +87,5 @@ namespace ZEditor
             UnityEngine.Debug.Log("excel export done");
             return true;
         }
-
-
-        private static string ReadAllText(FileInfo file)
-        {
-            using (var stream = file.OpenText())
-            {
-                return stream.ReadToEnd();
-            }
-        }
-
     }
 }
