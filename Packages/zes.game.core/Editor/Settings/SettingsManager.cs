@@ -15,7 +15,13 @@ namespace Zes.Settings
         public const string settingsSourceDir = "GameSettings";
         public const string settingsTargetDir = "Assets/GameSettings";
         public const string gameConfigPath = settingsTargetDir + "/Resources/boot.json";
-        public const string platformConfigPath = "platform.json";
+        public const string platformConfigFileName = "platform.json";
+        public const string gameConfigFileName = "platform.json";
+        public const string templatePathName = "templates";
+        public const string configSourcePathName = "configs";
+        public const string defaultConfigName = "dev";
+
+        private Logger logger = Logger.GetLogger<GameSettingsWindow>();
 
         protected Dictionary<string, SettingPanel> panels = new Dictionary<string, SettingPanel>();
         protected SettingPanel currentPanel;
@@ -23,8 +29,7 @@ namespace Zes.Settings
         protected PlatformConfig platformConfig;
         private string[] allConfigs;
         private int currentIndexOfConfig = -1;
-        private bool showAddPanel = false;
-        private string newConfigName = "";
+        private bool showCreatePanel = false;
         private string newPlatformName = "";
 
         public virtual void Initialize()
@@ -34,9 +39,11 @@ namespace Zes.Settings
             currentPanel.config = gameConfig;
             currentPanel.OnShow();
 
-            var configs = new DirectoryInfo(Path.Combine(settingsSourceDir, "configs")).GetDirectories().Select(d => d.Name).ToArray();
-            var platforms = new DirectoryInfo(Path.Combine(settingsSourceDir, "platforms")).GetDirectories().Select(d => d.Name).ToArray();
-            allConfigs = platforms.SelectMany(p => configs.Select(c => $"{p}/{c}")).ToArray();
+            allConfigs = new DirectoryInfo(settingsSourceDir).GetDirectories()
+                .SelectMany(p => new DirectoryInfo(Path.Combine(p.FullName, configSourcePathName))
+                .GetDirectories()
+                .Where(d => d.Name != templatePathName)
+                .Select(d => $"{p.Name}/{d.Name}")).ToArray();
 
             LoadGameConfig();
             LoadPlatformConfig();
@@ -68,7 +75,7 @@ namespace Zes.Settings
             }
 
             ConfigSelector();
-            DrawAddPanel();
+            DrawCreatePanel();
 
             if (!IsConfigValid())
             {
@@ -78,6 +85,7 @@ namespace Zes.Settings
                 return;
             }
 
+            bool refresAsset = false;
             using (new EditorGUILayout.HorizontalScope(GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true)))
             {
                 SectionSelector();
@@ -92,10 +100,14 @@ namespace Zes.Settings
                             SaveGameConfig();
                             SavePlatformConfig();
                             currentPanel.dirty = false;
-                            AssetDatabase.Refresh();
+                            refresAsset = true;
                         }
                     }
                 }
+            }
+            if (refresAsset)
+            {
+                AssetDatabase.Refresh();
             }
         }
 
@@ -124,7 +136,7 @@ namespace Zes.Settings
 
         protected bool LoadPlatformConfig()
         {
-            if (!File.Exists(platformConfigPath))
+            if (!File.Exists(platformConfigFileName))
                 return false;
             platformConfig = PlatformConfig.load();
             panels.Values.ToList().ForEach(i => i.platformConfig = platformConfig);
@@ -133,7 +145,7 @@ namespace Zes.Settings
 
         protected void SavePlatformConfig()
         {
-            SavePlatformConfig(platformConfig, platformConfigPath);
+            SavePlatformConfig(platformConfig, platformConfigFileName);
         }
 
         protected void SavePlatformConfig(PlatformConfig config, string targetPath)
@@ -153,9 +165,9 @@ namespace Zes.Settings
             panels.Add(panel.Name, panel);
         }
 
-        private void DrawAddPanel()
+        private void DrawCreatePanel()
         {
-            if (!showAddPanel)
+            if (!showCreatePanel)
             {
                 return;
             }
@@ -164,37 +176,36 @@ namespace Zes.Settings
             {
                 using (new EditorGUILayout.HorizontalScope())
                 {
-                    newConfigName = EditorGUILayout.TextField(newConfigName);
-                    if (GUILayout.Button("Create new game config", GUILayout.Width(200)))
-                    {
-                        if (!string.IsNullOrEmpty(newConfigName))
-                        {
-                            var newConfig = new AppConfig();
-                            newConfig.name = newConfigName.Trim();
-                            var targetdir = Path.Combine(settingsSourceDir, "configs", newConfig.name, "Resources");
-                            Util.EnsureDir(targetdir);
-                            var targetpath = Path.Combine(targetdir, "boot.json");
-                            SaveGameConfig(newConfig, targetpath);
-                            EditorUtility.DisplayDialog("DONE", $"game config {newConfigName} created", "OK");
-                            newConfigName = "";
-                        }
-                    }
-                }
-                using (new EditorGUILayout.HorizontalScope())
-                {
-                    newPlatformName = EditorGUILayout.TextField(newPlatformName);
+                    newPlatformName = EditorGUILayout.TextField(newPlatformName).Trim();
                     if (GUILayout.Button("Create new platform", GUILayout.Width(200)))
                     {
                         if (!string.IsNullOrEmpty(newPlatformName))
                         {
                             var newConfig = new PlatformConfig();
-                            newConfig.name = newPlatformName.Trim();
-                            var targetdir = Path.Combine(settingsSourceDir, "platforms", newConfig.name);
+                            newConfig.name = newPlatformName;
+                            var targetdir = Path.Combine(settingsSourceDir, newConfig.name);
                             Util.EnsureDir(targetdir);
-                            var targetpath = Path.Combine(targetdir, "platform.json");
-                            SavePlatformConfig(newConfig, targetpath);
+                            var templatedir = Path.Combine(targetdir, templatePathName);
+
+                            // create templates dir
+                            Util.EnsureDir(templatedir);
+                            SavePlatformConfig(newConfig, Path.Combine(templatedir, platformConfigFileName));
+
+                            // create configs dir
+                            var configsdir = Path.Combine(targetdir,
+                                configSourcePathName,
+                                defaultConfigName,
+                                "Assets",
+                                "GameSettings",
+                                "Resources");
+                            Util.EnsureDir(configsdir);
+
+                            // create a default config
+                            var gameConfig = new AppConfig();
+                            SaveGameConfig(new AppConfig(), Path.Combine(configsdir, gameConfigFileName));
                             EditorUtility.DisplayDialog("DONE", $"platform {newPlatformName} created", "OK");
                             newPlatformName = "";
+                            showCreatePanel = false;
                         }
                     }
                 }
@@ -236,43 +247,38 @@ namespace Zes.Settings
             }
             if (GUILayout.Button("+", EditorStyles.miniButton, GUILayout.Width(32)))
             {
-                showAddPanel = !showAddPanel;
+                showCreatePanel = !showCreatePanel;
             }
             EditorGUILayout.EndHorizontal();
         }
 
         private void ApplyConfig()
         {
-            var configpath = allConfigs[currentIndexOfConfig];
-            var parts = configpath.Split('/');
-            var platformpath = parts[0].Trim();
-            configpath = parts[1].Trim();
-
-            // remove Assets/csc.rsp
-            if (File.Exists("Assets/csc.rsp"))
-            {
-                File.Delete("Assets/csc.rsp");
-            }
+            var configname = allConfigs[currentIndexOfConfig];
+            var parts = configname.Split('/');
+            var platformname = parts[0].Trim();
+            configname = parts[1].Trim();
 
             Util.ClearDir(settingsTargetDir);
-            var configsourcedir = Path.Combine(settingsSourceDir, "configs", configpath);
-            var configtargetdir = settingsTargetDir;
-            Util.CopyDir(configsourcedir, configtargetdir);
-
-            var platformsourcedir = Path.Combine(settingsSourceDir, "platforms", platformpath);
-            Util.CopyDir(platformsourcedir, ".");
+            var platformSourceDir = Path.Combine(settingsSourceDir, platformname, templatePathName);
+            logger.Info($"copy platform source from {platformSourceDir}");
+            Util.CopyDir(platformSourceDir, ".");
+            var configSourceDir = Path.Combine(settingsSourceDir, platformname, configSourcePathName, configname);
+            logger.Info($"copy config source from {platformSourceDir}");
+            Util.CopyDir(configSourceDir, ".");
 
             LoadGameConfig();
             LoadPlatformConfig();
 
-            if (gameConfig.name != configpath)
+            if (gameConfig.name != configname)
             {
-                gameConfig.name = configpath;
+                gameConfig.name = configname;
                 SaveGameConfig();
             }
-            if (platformConfig.name != platformpath)
+
+            if (platformConfig.name != platformname)
             {
-                platformConfig.name = platformpath;
+                platformConfig.name = platformname;
                 SavePlatformConfig();
             }
 
