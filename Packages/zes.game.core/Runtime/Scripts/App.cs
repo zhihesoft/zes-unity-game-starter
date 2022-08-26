@@ -11,7 +11,8 @@ namespace Zes
     public class App : MonoBehaviour
     {
         public static AppConfig config => instance.appConfig;
-        public static string persistentDataPath => Path.Combine(Application.persistentDataPath, config.patchDataPath);
+        public static AppProp prop => instance.appProp;
+        public static string persistentDataPath => Path.Combine(Application.persistentDataPath, prop.patchDataPath);
         public static bool inEditor
         {
             get
@@ -30,7 +31,9 @@ namespace Zes
         private static JsEnv jsEnv;
 
         public AppInit appInit;
+        public AppProp appProp;
         protected AppConfig appConfig;
+        private AssetBundle scriptBundle;
 
         private async Task InitJavascriptEnv()
         {
@@ -40,15 +43,18 @@ namespace Zes
                 jsEnv = null;
             }
 
-            //loader.UnloadBundle(config.javascriptBundle);
-            //await loader.LoadBundle(config.javascriptBundle);
+            if (scriptBundle != null)
+            {
+                loader.UnloadBundle(scriptBundle);
+            }
+            scriptBundle = await loader.LoadBundle(appProp.javascriptBundle);
 
 #if UNITY_EDITOR
             var env = new JsEnv(new JSLoaderForEditor());
-            string script = config.javascriptEntryEditor;
+            string script = appProp.javascriptEntryEditor;
 #else
             var env = new JsEnv(new JSLoaderForBundle());
-            string script = config.javascriptEntryRuntime;
+            string script = appProp.javascriptEntryRuntime;
 #endif
             env.UsingAction<bool>();
             env.UsingAction<float>();

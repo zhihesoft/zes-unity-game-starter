@@ -45,24 +45,5 @@ namespace Zes
         /// </summary>
         public bool checkUpdate = true;
 
-        /// <summary>
-        /// patch data path in device
-        /// </summary>
-        public string patchDataPath = "patch_data";
-
-        /// <summary>
-        /// Typescript project path, relative to project root dir
-        /// </summary>
-        public string typescriptProjectPath = "Typescripts";
-
-        /// <summary>
-        /// javascript entry for editor
-        /// </summary>
-        public string javascriptEntryEditor = "./dist/index.js";
-
-        /// <summary>
-        /// javascript entry for runtime
-        /// </summary>
-        public string javascriptEntryRuntime = "text:Assets/Bundles/texts/main.bytes";
     }
 }

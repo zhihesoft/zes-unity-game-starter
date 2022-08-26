@@ -48,6 +48,15 @@ namespace Zes.Settings
             }
         }
 
+        protected virtual void InitializePanels()
+        {
+            panels.Clear();
+            AddPanel(new CommonPanel());
+            AddPanel(new PatchPanel());
+            AddPanel(new PlatformPanel());
+        }
+
+
         public void OnGUI()
         {
             if (EditorApplication.isCompiling)
@@ -137,15 +146,6 @@ namespace Zes.Settings
         protected bool IsConfigValid()
         {
             return gameConfig != null && platformConfig != null;
-        }
-
-        protected virtual void InitializePanels()
-        {
-            panels.Clear();
-            AddPanel(new CommonPanel());
-            AddPanel(new TypescriptPanel());
-            AddPanel(new PatchPanel());
-            AddPanel(new PlatformPanel());
         }
 
         private void AddPanel(SettingPanel panel)

@@ -1,9 +1,6 @@
 ﻿// using Liv;
-using System.IO;
-using UnityEngine;
 using UnityEditor;
-using Zes;
-using System.Text;
+using UnityEngine;
 using Zes.Settings;
 
 namespace Zes
@@ -11,7 +8,7 @@ namespace Zes
     public class GameSettingsWindow : EditorWindow
     {
 
-        [MenuItem("ZES/游戏设置", priority = 1)]
+        [MenuItem("ZES/Settings", priority = 1)]
         public static void ShowGameSettingsWindow()
         {
             var window = GetWindow<GameSettingsWindow>("游戏设置");

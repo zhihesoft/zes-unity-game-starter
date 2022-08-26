@@ -1,14 +1,9 @@
 {
-    "name": "dev",
-    "description": "",
-    "appLanguage": "zh-cn",
-    "loginServer": "http://101.35.203.136:12081/",
-    "allowGuest": true,
-    "patchServer": "http://101.35.203.136:12082/",
-    "minVersion": "1.0.0",
+    "name": "local",
+    "loginServer": "http://localhost:3000/",
+    "patchServer": "http://localhost:3001/",
     "checkUpdate": false,
-    "patchDataPath": "patch_data",
-    "typescriptProjectPath": "Typescripts",
-    "javascriptEntryEditor": "./dist/index.js",
-    "javascriptEntryRuntime": "text:Assets/Bundles/texts/main.bytes"
+	"language": 0,
+    "allowGuest": true,
+	"minVersion": "1.0.0"
 }

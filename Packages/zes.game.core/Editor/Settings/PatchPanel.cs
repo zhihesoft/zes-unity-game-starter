@@ -13,7 +13,6 @@
         {
             config.patchServer = TextField("Patch server", config.patchServer);
             config.minVersion = TextField("Minimun version", config.minVersion);
-            config.patchDataPath = TextField("Patch data path", config.patchDataPath);
         }
     }
 }

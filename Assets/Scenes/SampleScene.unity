@@ -346,4 +346,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   appInit: {fileID: 0}
-  bootConfig: {fileID: 4900000, guid: c22b5be65b45a5445b34cf081105a08b, type: 3}
+  property: {fileID: 11400000, guid: b2db38a7b1b21414597c2130cd6bdcd3, type: 2}
