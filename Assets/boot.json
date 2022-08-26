@@ -1,16 +1,9 @@
 {
     "name": "local",
     "appLanguage": "zh-cn",
-    "loginServer": "http://localhost:3000/",
+    "loginServer": "http://localhost:3000/game",
     "allowGuest": true,
-    "patchServer": "http://localhost:3001/",
+    "patchServer": "http://localhost:3001/patch",
     "minVersion": "0.0.0",
-    "checkUpdate": false,
-    "patchDataPath": "patch_data",
-    "patchInfoFile": "patch.json",
-    "versionInfoFile": "version.json",
-    "typescriptProjectPath": "Typescripts",
-    "javascriptEntryEditor": "./dist/index.js",
-    "javascriptBundle": "js",
-    "javascriptEntryRuntime": "Assets/Bundles/js/main.bytes"
+    "checkUpdate": false
 }
