@@ -1,0 +1,14 @@
+{
+    "name": "common",
+    "company": "乐境科技",
+    "productName": "剑与女神",
+    "applicationId": "com.leadinvr.sword.dev",
+    "keystore": "Keys/sword.keystore",
+    "keystorePassword": "111111",
+    "keyAlias": "sword",
+    "keyAliasPassword": "111111",
+    "targetSdkVersion": 0,
+    "language": 0,
+    "usingAAB": false,
+	"description": "自家测试用平台"
+}

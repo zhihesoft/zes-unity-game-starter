@@ -1,0 +1,10 @@
+{
+    "name": "",
+    "description": "",
+    "appLanguage": "zh-cn",
+    "loginServer": "",
+    "allowGuest": false,
+    "patchServer": "",
+    "minVersion": "",
+    "checkUpdate": true
+}
