@@ -63,7 +63,7 @@ namespace Zes.Settings
 
             if (!IsConfigValid())
             {
-                EditorGUILayout.LabelField("No config loaded !!",
+                EditorGUILayout.LabelField("Config invalid !!",
                     EditorStyles.centeredGreyMiniLabel,
                     GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
                 return;
@@ -247,6 +247,12 @@ namespace Zes.Settings
             var parts = configpath.Split('/');
             var platformpath = parts[0].Trim();
             configpath = parts[1].Trim();
+
+            // remove Assets/csc.rsp
+            if (File.Exists("Assets/csc.rsp"))
+            {
+                File.Delete("Assets/csc.rsp");
+            }
 
             Util.ClearDir(settingsTargetDir);
             var configsourcedir = Path.Combine(settingsSourceDir, "configs", configpath);
