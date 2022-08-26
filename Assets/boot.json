@@ -11,6 +11,6 @@
     "versionInfoFile": "version.json",
     "typescriptProjectPath": "Typescripts",
     "javascriptEntryEditor": "./dist/index.js",
-    "javascriptBundle": "text",
-    "javascriptEntryRuntime": "Assets/Bundles/texts/main.bytes"
+    "javascriptBundle": "js",
+    "javascriptEntryRuntime": "Assets/Bundles/js/main.bytes"
 }

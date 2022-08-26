@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using UnityEditor;
 using UnityEngine;
 using Zes.Settings;
 
@@ -6,6 +7,11 @@ namespace Zes
 {
     public static class EditorHelper
     {
+        public static AppConstants LoadAppConstants()
+        {
+            return AssetDatabase.LoadAssetAtPath<AppConstants>("Assets/appconstants.asset");
+        }
+
         public static AppConfig LoadAppConfig()
         {
             return LoadAppConfig(SettingsManager.gameConfigPath);
