@@ -11,6 +11,16 @@ namespace Zes
         public string patchDataPath = "patch_data";
 
         /// <summary>
+        /// patch info file name
+        /// </summary>
+        public string patchInfoFile = "patch.json";
+
+        /// <summary>
+        /// version info file name
+        /// </summary>
+        public string versionInfoFile = "version.json";
+
+        /// <summary>
         /// Typescript project path, relative to project root dir
         /// </summary>
         public string typescriptProjectPath = "Typescripts";

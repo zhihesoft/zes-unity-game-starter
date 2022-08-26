@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 763631d13167968479b3aef6f3041acd, type: 3}
   m_Name: app
   m_EditorClassIdentifier: 
+  patchDataPath: patch_data
+  patchInfoFile: patch.json
+  versionInfoFile: version.json
   typescriptProjectPath: Typescripts
   javascriptEntryEditor: ./dist/index.js
-  javascriptEntryRuntime: text:Assets/Bundles/texts/main.bytes
+  javascriptBundle: js
+  javascriptEntryRuntime: Assets/Bundles/js/main.bytes

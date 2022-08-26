@@ -1,6 +1,5 @@
 {
     "name": "dev",
-    "description": "自家测试用平台",
     "androidKeystorePassword": "",
     "androidKeyAliasPassword": ""
 }

@@ -1,40 +1,32 @@
 using System.IO;
 
 
-namespace ZEditor
+namespace Zes
 {
-    class BuildNo
+    public static class BuildNo
     {
+        const string buildNoPath = "buildno.txt";
+
         public static int Get()
         {
-            string path = "buildno.txt";
-            if (!File.Exists(path))
+            if (!File.Exists(buildNoPath))
             {
-                var sw = File.CreateText(path);
-                sw.Write(1);
-                sw.Close();
-                return 1;
+                return 0;
             }
-            string text = File.ReadAllText(path);
+            string text = File.ReadAllText(buildNoPath);
             int result;
             if (!int.TryParse(text, out result))
             {
-                result = 1;
+                result = 0;
             }
             return result;
         }
 
         public static int Inc()
         {
-            string path = "buildno.txt";
-            string text = File.ReadAllText(path);
-            int result;
-            if (!int.TryParse(text, out result))
-            {
-                result = 1;
-            }
+            int result = Get();
             result += 1;
-            using (var w = File.CreateText(path))
+            using (var w = File.CreateText(buildNoPath))
             {
                 w.Write(result);
             }

@@ -8,14 +8,12 @@ namespace Zes
     {
         // 配置名称
         public string name;
-        // 描述
-        public string description;
         // Android 证书密码
         public string androidKeystorePassword;
         // Android 签名密码
         public string androidKeyAliasPassword;
 
-        public static PlatformConfig load()
+        public static PlatformConfig Load()
         {
             using (StreamReader fs = new StreamReader("platform.json", Util.Utf8WithoutBOM()))
             {

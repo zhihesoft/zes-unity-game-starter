@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace Zes
 {
@@ -11,11 +12,7 @@ namespace Zes
         public string name = "";
 
         /// <summary>
-        /// Config description
-        /// </summary>
-        public string description = "";
-
-        /// <summary>
+        /// 
         /// App language
         /// </summary>
         public string appLanguage = "zh-cn";
@@ -45,5 +42,10 @@ namespace Zes
         /// </summary>
         public bool checkUpdate = true;
 
+        public static AppConfig Load()
+        {
+            var txt = Resources.Load<TextAsset>("boot");
+            return JsonUtility.FromJson<AppConfig>(txt.text);
+        }
     }
 }

@@ -14,9 +14,9 @@ namespace Zes.Settings
     {
         public const string settingsSourceDir = "GameSettings";
         public const string settingsTargetDir = "Assets/GameSettings";
-        public const string gameConfigPath = settingsTargetDir + "/Resources/boot.json";
+        public const string gameConfigPath = "Assets/boot.json";
         public const string platformConfigFileName = "platform.json";
-        public const string gameConfigFileName = "platform.json";
+        public const string gameConfigFileName = "boot.json";
         public const string templatePathName = "templates";
         public const string configSourcePathName = "configs";
         public const string defaultConfigName = "dev";
@@ -58,8 +58,7 @@ namespace Zes.Settings
         protected virtual void InitializePanels()
         {
             panels.Clear();
-            AddPanel(new CommonPanel());
-            AddPanel(new PatchPanel());
+            AddPanel(new GameConfigPanel());
             AddPanel(new PlatformPanel());
         }
 
@@ -138,7 +137,7 @@ namespace Zes.Settings
         {
             if (!File.Exists(platformConfigFileName))
                 return false;
-            platformConfig = PlatformConfig.load();
+            platformConfig = PlatformConfig.Load();
             panels.Values.ToList().ForEach(i => i.platformConfig = platformConfig);
             return true;
         }
@@ -195,13 +194,10 @@ namespace Zes.Settings
                             var configsdir = Path.Combine(targetdir,
                                 configSourcePathName,
                                 defaultConfigName,
-                                "Assets",
-                                "GameSettings",
-                                "Resources");
+                                "Assets");
                             Util.EnsureDir(configsdir);
 
                             // create a default config
-                            var gameConfig = new AppConfig();
                             SaveGameConfig(new AppConfig(), Path.Combine(configsdir, gameConfigFileName));
                             EditorUtility.DisplayDialog("DONE", $"platform {newPlatformName} created", "OK");
                             newPlatformName = "";
@@ -260,6 +256,12 @@ namespace Zes.Settings
             configname = parts[1].Trim();
 
             Util.ClearDir(settingsTargetDir);
+            // delete csc.rsp
+            if (File.Exists("csc.rsp"))
+            {
+                File.Delete("csc.rsp");
+            }
+
             var platformSourceDir = Path.Combine(settingsSourceDir, platformname, templatePathName);
             logger.Info($"copy platform source from {platformSourceDir}");
             Util.CopyDir(platformSourceDir, ".");

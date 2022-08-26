@@ -11,7 +11,7 @@ namespace Zes
     public class App : MonoBehaviour
     {
         public static AppConfig config => instance.appConfig;
-        public static AppProp prop => instance.appProp;
+        public static AppProp prop => instance.propConfig;
         public static string persistentDataPath => Path.Combine(Application.persistentDataPath, prop.patchDataPath);
         public static bool inEditor
         {
@@ -31,7 +31,9 @@ namespace Zes
         private static JsEnv jsEnv;
 
         public AppInit appInit;
-        public AppProp appProp;
+        public AppProp propConfig;
+        public TextAsset bootConfig;
+
         protected AppConfig appConfig;
         private AssetBundle scriptBundle;
 
@@ -47,11 +49,11 @@ namespace Zes
             {
                 loader.UnloadBundle(scriptBundle);
             }
-            scriptBundle = await loader.LoadBundle(appProp.javascriptBundle);
+            scriptBundle = await loader.LoadBundle(propConfig.javascriptBundle);
 
 #if UNITY_EDITOR
             var env = new JsEnv(new JSLoaderForEditor());
-            string script = appProp.javascriptEntryEditor;
+            string script = propConfig.javascriptEntryEditor;
 #else
             var env = new JsEnv(new JSLoaderForBundle());
             string script = appProp.javascriptEntryRuntime;
@@ -78,9 +80,12 @@ namespace Zes
 
         private void Start()
         {
+            Debug.Assert(bootConfig != null, "boot config cannot be null");
+
             logger.Info("App starting");
-            instance = this;
             DontDestroyOnLoad(gameObject); // dont destroy
+            instance = this;
+            appConfig = JsonUtility.FromJson<AppConfig>(bootConfig.text);
 #if UNITY_EDITOR
             loader = new ResourceLoaderForEditor();
 #else
