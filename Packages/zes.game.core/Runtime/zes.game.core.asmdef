@@ -1,7 +1,9 @@
 {
     "name": "zes.game.core",
     "references": [
-		"com.tencent.puerts.core"
+		"com.tencent.puerts.core",
+        "Google.Play.AssetDelivery"
+
 	],
     "includePlatforms": [],
     "excludePlatforms": [],

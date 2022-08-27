@@ -4,7 +4,8 @@
     "references": [
 		"zes.game.core",
 		"com.tencent.puerts.core",
-		"com.tencent.puerts.core.Editor"
+		"com.tencent.puerts.core.Editor",
+        "Google.Play.AssetDelivery"
 	],
     "includePlatforms": [
         "Editor"

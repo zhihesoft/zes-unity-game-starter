@@ -75,13 +75,13 @@ namespace Zes
 
         private void Start()
         {
+            Debug.Assert(bootConfig != null, "boot config cannot be null");
             DontDestroyOnLoad(gameObject);
 
-            Debug.Assert(bootConfig != null, "boot config cannot be null");
             instance = this;
+            appInit?.BeforeInit();
             appConfig = JsonUtility.FromJson<AppConfig>(bootConfig.text);
             loader = ResourceLoader.GetLoader();
-
             Restart();
         }
 

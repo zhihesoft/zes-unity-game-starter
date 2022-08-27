@@ -1,18 +1,14 @@
 ﻿using System;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
 namespace Zes
 {
     public class ResourceLoaderForRuntime : ResourceLoader
     {
-        static Logger logger = Logger.GetLogger<ResourceLoaderForRuntime>();
-
         public override async Task<Scene> LoadScene(string name, bool additive, Action<float> progress)
         {
             Scene loadedScene = default(Scene);

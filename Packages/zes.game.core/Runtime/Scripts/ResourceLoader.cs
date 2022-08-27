@@ -14,13 +14,16 @@ namespace Zes
         {
 #if UNITY_EDITOR
             var loader = new ResourceLoaderForEditor();
+#elif USING_AAB
+            var loader = new ResourceLoaderForAAB();
 #else
             var loader = new ResourceLoaderForRuntime();
 #endif
             return loader;
         }
 
-        private static Logger logger = Logger.GetLogger<ResourceLoader>();
+        protected Logger logger = Logger.GetLogger<ResourceLoader>();
+
         public async Task<string> LoadText(string path)
         {
             byte[] bytes;
