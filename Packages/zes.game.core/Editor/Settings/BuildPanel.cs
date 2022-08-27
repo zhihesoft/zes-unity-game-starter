@@ -1,5 +1,6 @@
 ﻿using UnityEditor;
 using UnityEngine;
+using Zes.Builders;
 
 namespace Zes.Settings
 {
@@ -18,7 +19,7 @@ namespace Zes.Settings
             EditorGUILayout.LabelField("Import configuration files");
             using (new GUIIndent())
             {
-
+                BuildConfigurations.excelsPath = EditorGUILayout.TextField("Excels", BuildConfigurations.excelsPath);
             }
         }
     }

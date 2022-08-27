@@ -2,8 +2,12 @@
 #
 # Get latest from https://github.com/github/gitignore/blob/master/Unity.gitignore
 #
+AssetBundles/
 Assets/Gen.meta
 Assets/Gen/
+Assets/Bundles/
+Assets/StreamingAssets/
+Assets/StreamingAssets.meta
 Typescripts/dist/
 Typescripts/node_modules/
 Typescripts/out/

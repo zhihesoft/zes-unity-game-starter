@@ -12,10 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abf2831cda7d8234193297074e8e1299, type: 3}
   m_Name: appconstants
   m_EditorClassIdentifier: 
+  languageStartId: 180000
+  languageConfigName: language
+  bundleOutputPath: AssetBundles
+  configurationBundlePath: Assets/Bundles/conf
   patchDataPath: patch_data
   patchInfoFile: patch.json
   versionInfoFile: version.json
-  typescriptProjectPath: Typescripts
+  javascriptProjectPath: Typescripts
   javascriptEntryEditor: ./dist/index.js
+  javascriptBuildResult: ./out/main.bytes
   javascriptBundle: js
   javascriptEntryRuntime: Assets/Bundles/js/main.bytes

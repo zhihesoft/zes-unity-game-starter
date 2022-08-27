@@ -1,59 +1,55 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-namespace Zes
+namespace Zes.Builders
 {
-    public class BundleBuilder
+    public class BuildBundle : BuildTask
     {
-        static Logger logger = Logger.GetLogger<BundleBuilder>();
-
-        public static string BuildBundleOfTarget()
+        public BuildBundle(AppConstants constants, BuildTarget target) : base(constants)
         {
-            return BuildBundleOfTarget(EditorUserBuildSettings.activeBuildTarget);
-        }
-
-        public static string BuildBundleOfTarget(BuildTarget target)
-        {
-            BundleBuilder proc = new BundleBuilder(target);
-            return proc.Build();
-        }
-
-        BundleBuilder(BuildTarget target)
-        {
-            appConfig = EditorHelper.LoadAppConfig();
-            constants = EditorHelper.LoadAppConstants();
             this.target = target;
-#if USING_AAB
-            copyToStreaming = false;
-#else
-            copyToStreaming = true;
-#endif
+        }
+
+        private BuildTarget target;
+        private AppConfig appConfig;
+
+        private string targetName;
+        private string streamingDir;
+        private string bundlesDir;
+        private Dictionary<string, string> allFiles;
+        private int buildNo;
+
+
+        public override string name => "Bundle";
+
+        protected override void AfterBuild()
+        {
+            BuildNo.Inc();
+            AssetDatabase.Refresh();
+        }
+
+        protected override bool BeforeBuild()
+        {
+            buildNo = BuildNo.Get();
             targetName = target.ToString();
             string dir = Util.EnsureDir(constants.bundleOutputPath).FullName;
             bundlesDir = Util.EnsureDir(Path.Combine(dir, targetName)).FullName;
             streamingDir = Util.EnsureDir(Application.streamingAssetsPath).FullName;
-            buildNo = BuildNo.Get(); // GetBuildNo();
+
+            appConfig = EditorHelper.LoadAppConfig();
+            Util.ClearDir(bundlesDir);
+            Util.ClearDir(streamingDir);
+            Caching.ClearCache();
+            return true;
         }
 
-        readonly AppConfig appConfig;
-        readonly AppConstants constants;
-        readonly BuildTarget target;
-        readonly int buildNo;
-        readonly bool copyToStreaming;
-        readonly string targetName;
-        readonly string streamingDir;
-        readonly string bundlesDir;
-        Dictionary<string, string> allFiles;
-
-        public string Build()
+        protected override bool OnBuild()
         {
-            Caching.ClearCache();
-            ClearDirs();
             var manifest = BuildPipeline.BuildAssetBundles(bundlesDir, BuildAssetBundleOptions.None, target);
-
             var files = manifest.GetAllAssetBundles().ToList();
             allFiles = files.ToDictionary(file => file, file => manifest.GetAssetBundleHash(file).ToString());
 
@@ -61,16 +57,21 @@ namespace Zes
             PatchInfo patchInfo = CreatePatchInfo();
             CopyFilesToStreaming(patchInfo);
 
-            BuildNo.Inc();
-            logger.Info("asset bundles build finished. " + "(" + buildNo + ")");
-            return versionInfo.version;
+            return true;
         }
+
+        protected override string FinishInfo()
+        {
+            return $"buildno={buildNo}";
+        }
+
+        string url => Util.CombineUri(appConfig.patchServer, targetName.ToLower());
 
 
         VersionInfo CreateVersionInfo()
         {
             VersionInfo vi = new VersionInfo();
-            vi.url = appConfig.patchServer + targetName.ToLower();
+            vi.url = url;
             vi.version = Application.version + "." + buildNo;
             vi.minVersion = appConfig.minVersion;
             vi.Save(Path.Combine(bundlesDir, constants.versionInfoFile));
@@ -80,7 +81,7 @@ namespace Zes
         PatchInfo CreatePatchInfo()
         {
             PatchInfo pi = new PatchInfo();
-            pi.url = appConfig.patchServer + targetName.ToLower();
+            pi.url = url;
             pi.version = Application.version + "." + buildNo;
             pi.files = allFiles
                 .Select(file => new PatchFileInfo()
@@ -91,8 +92,7 @@ namespace Zes
                 })
                 .ToArray();
 
-            string path = Path.Combine(bundlesDir, constants.patchDataPath);
-            pi.Save(path);
+            pi.Save(Path.Combine(bundlesDir, constants.patchInfoFile));
             return pi;
         }
 
@@ -107,6 +107,12 @@ namespace Zes
             // clear stream dir
             DirectoryInfo di = new DirectoryInfo(streamingDir);
             di.GetFiles().ToList().ForEach(file => file.Delete());
+
+#if USING_AAB
+            bool copyToStreaming = false;
+#else
+            bool copyToStreaming = true;
+#endif
 
             if (copyToStreaming)
             {
@@ -125,10 +131,5 @@ namespace Zes
             File.Copy(Path.Combine(bundlesDir, constants.patchInfoFile), Path.Combine(streamingDir, constants.patchInfoFile), true);
         }
 
-        void ClearDirs()
-        {
-            Util.ClearDir(bundlesDir);
-            Util.ClearDir(streamingDir);
-        }
     }
 }

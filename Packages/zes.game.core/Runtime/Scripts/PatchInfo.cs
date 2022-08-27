@@ -12,7 +12,7 @@ namespace Zes
 
         public string ToJson()
         {
-            return JsonUtility.ToJson(this);
+            return JsonUtility.ToJson(this, true);
         }
 
         public static PatchInfo FromJson(string json)

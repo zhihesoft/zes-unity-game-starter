@@ -5,6 +5,21 @@ namespace Zes
     [CreateAssetMenu(fileName = "appconstants", menuName = "Zes/App Constants", order = 1)]
     public class AppConstants : ScriptableObject
     {
+        [Header("i18n")]
+        public int languageStartId = 18000;
+        public string languageConfigName = "language";
+
+        /// <summary>
+        /// bundles settings
+        /// </summary>
+        [Header("Bundles")]
+        public string bundleOutputPath = "AssetBundles";
+
+        /// <summary>
+        /// config bundle path
+        /// </summary>
+        public string configurationBundlePath = "Assets/Bundles/conf";
+
         /// <summary>
         /// patch data path in device
         /// </summary>
@@ -31,6 +46,11 @@ namespace Zes
         /// javascript entry for editor
         /// </summary>
         public string javascriptEntryEditor = "./dist/index.js";
+
+        /// <summary>
+        /// javascript entry for editor
+        /// </summary>
+        public string javascriptBuildResult = "./out/main.bytes";
 
         /// <summary>
         /// javascript entry for runtime

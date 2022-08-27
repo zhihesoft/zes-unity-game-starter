@@ -113,5 +113,14 @@ namespace Zes
             from.GetDirectories().ToList().ForEach(dir => CopyDir(dir, new DirectoryInfo(Path.Combine(to.FullName, dir.Name))));
         }
 
+        public static string CombineUri(string baseUri, string path)
+        {
+            if (!baseUri.EndsWith("/"))
+            {
+                baseUri += "/";
+            }
+
+            return new Uri(new Uri(baseUri), path).ToString();
+        }
     }
 }

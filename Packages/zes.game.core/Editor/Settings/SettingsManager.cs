@@ -58,7 +58,7 @@ namespace Zes.Settings
             panels.Clear();
             AddPanel(new GameConfigPanel());
             AddPanel(new PlatformPanel());
-            AddPanel(new SpacePanel("space"));
+            // AddPanel(new SpacePanel("space"));
             AddPanel(new BuildPanel());
         }
 
