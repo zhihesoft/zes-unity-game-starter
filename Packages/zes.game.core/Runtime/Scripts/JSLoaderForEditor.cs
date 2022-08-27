@@ -1,36 +1,31 @@
 using Puerts;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Zes
 {
-    public class JSLoaderForEditor : ILoader
+    public class JSLoaderForEditor : JSLoader
     {
-        private ILoader defaultLoader = new DefaultLoader();
-        private string sourcePath = ""; // TODO: add source path here // App.config.javascriptPathEditor;
-        private const string puertsPrefix = "puerts";
-        private static Logger logger = Logger.GetLogger<JSLoaderForEditor>();
-
-        public bool FileExists(string filepath)
+        public override Task<bool> Init()
         {
-            if (filepath.StartsWith(puertsPrefix))
-            {
-                return defaultLoader.FileExists(filepath);
-            }
+            return Task.FromResult(true);
+        }
 
-            var path = Path.Combine(sourcePath, filepath);
+        public override void Dispose()
+        {
+        }
+
+        protected override bool CustomFileExists(string filepath)
+        {
+            var path = Path.Combine(App.constants.javascriptProjectPath, filepath);
             bool ret = File.Exists(path);
             return ret;
         }
 
-        public string ReadFile(string filepath, out string debugpath)
+        protected override string CustomReadFile(string filepath, out string debugpath)
         {
-            if (filepath.StartsWith(puertsPrefix))
-            {
-                return defaultLoader.ReadFile(filepath, out debugpath);
-            }
-
-            var path = Path.Combine(sourcePath, filepath);
+            var path = Path.Combine(App.constants.javascriptProjectPath, filepath);
             debugpath = path;
             logger.Debug($"load js file: {path}");
             return File.ReadAllText(path, Encoding.UTF8);

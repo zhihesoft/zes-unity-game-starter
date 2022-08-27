@@ -14,8 +14,6 @@ namespace Zes
 {
     public class ResourceLoaderForEditor : ResourceLoader
     {
-        static Logger logger = Logger.GetLogger<ResourceLoaderForEditor>();
-
         public override async Task<Scene> LoadScene(string name, bool additive, Action<float> progress)
         {
             Scene loadedScene = default(Scene);
@@ -30,22 +28,6 @@ namespace Zes
             await Util.WaitAsyncOperation(op, progress);
             SceneManager.sceneLoaded -= callback;
             return loadedScene;
-        }
-
-        public override async Task<string> LoadText(string path)
-        {
-            if (!File.Exists(path))
-            {
-                logger.Error($"{path} not found");
-                return "";
-            }
-
-            using (StreamReader reader = new StreamReader(path, Encoding.UTF8))
-            {
-                string s = reader.ReadToEnd();
-                await Task.Delay(0);
-                return s;
-            }
         }
 
         public override async Task<UnityEngine.Object> LoadAsset(AssetBundle bundle, string path, Type type)

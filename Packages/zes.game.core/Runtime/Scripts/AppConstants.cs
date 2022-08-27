@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Zes
 {
@@ -30,7 +25,7 @@ namespace Zes
         /// Typescript project path, relative to project root dir
         /// </summary>
         [Header("Script")]
-        public string typescriptProjectPath = "Typescripts";
+        public string javascriptProjectPath = "Typescripts";
 
         /// <summary>
         /// javascript entry for editor
@@ -46,6 +41,18 @@ namespace Zes
         /// javascript entry for runtime
         /// </summary>
         public string javascriptEntryRuntime = "Assets/Bundles/texts/main.bytes";
+
+        public string javascriptEntry
+        {
+            get
+            {
+#if UNITY_EDITOR
+                return javascriptEntryEditor;
+#else
+                return javascriptEntryRuntime;
+#endif
+            }
+        }
 
     }
 }

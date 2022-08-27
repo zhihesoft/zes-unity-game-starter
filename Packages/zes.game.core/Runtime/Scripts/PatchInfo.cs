@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using System.Text;
 using UnityEngine;
 
 namespace Zes
@@ -23,7 +22,7 @@ namespace Zes
 
         public void Save(string path)
         {
-            using (StreamWriter writer = new StreamWriter(path, false, Encoding.ASCII))
+            using (StreamWriter writer = new StreamWriter(path, false, Util.Utf8WithoutBOM()))
             {
                 writer.Write(ToJson());
                 writer.Close();

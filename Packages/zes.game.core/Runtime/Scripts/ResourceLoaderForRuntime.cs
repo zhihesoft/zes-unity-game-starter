@@ -27,30 +27,6 @@ namespace Zes
             return loadedScene;
         }
 
-        public override async Task<string> LoadText(string path)
-        {
-            byte[] bytes;
-            if (path.StartsWith("jar:"))
-            {
-                var webrequest = UnityWebRequest.Get(path);
-                webrequest.downloadHandler = new DownloadHandlerBuffer();
-                var req = webrequest.SendWebRequest();
-                await Util.WaitAsyncOperation(req);
-                bytes = webrequest.downloadHandler.data;
-            }
-            else
-            {
-                if (!File.Exists(path))
-                {
-                    logger.Error($"{path} not found");
-                    return "";
-                }
-                bytes = File.ReadAllBytes(path);
-            }
-            string str = Encoding.UTF8.GetString(bytes);
-            return str;
-        }
-
         public override async Task<UnityEngine.Object> LoadAsset(AssetBundle bundle, string path, Type type)
         {
             Debug.Assert(bundle != null, $"bundle cannot be null");

@@ -27,15 +27,15 @@ namespace Zes
         public static ResourceLoader loader { get; private set; }
 
         private static App instance;
-        private static Logger logger = Logger.GetLogger<App>();
-        private static JsEnv jsEnv;
 
         public AppInit appInit;
         public AppConstants appConstants;
         public TextAsset bootConfig;
 
-        protected AppConfig appConfig;
-        private AssetBundle scriptBundle;
+        private AppConfig appConfig;
+        private JsEnv jsEnv;
+        private JSLoader jsLoader;
+        private Logger logger = Logger.GetLogger<App>();
 
         private async Task InitJavascriptEnv()
         {
@@ -45,19 +45,15 @@ namespace Zes
                 jsEnv = null;
             }
 
-            if (scriptBundle != null)
+            if (jsLoader != null)
             {
-                loader.UnloadBundle(scriptBundle);
+                jsLoader.Dispose();
             }
-            scriptBundle = await loader.LoadBundle(appConstants.javascriptBundle);
 
-#if UNITY_EDITOR
-            var env = new JsEnv(new JSLoaderForEditor());
-            string script = appConstants.javascriptEntryEditor;
-#else
-            var env = new JsEnv(new JSLoaderForBundle());
-            string script = appProp.javascriptEntryRuntime;
-#endif
+            jsLoader = await JSLoader.GetLoader();
+
+            var env = new JsEnv(jsLoader);
+
             env.UsingAction<bool>();
             env.UsingAction<float>();
             env.UsingAction<string>();
@@ -68,8 +64,7 @@ namespace Zes
 
             appInit?.OnInit(env);
 
-            env.Eval($"require('{script}');");
-
+            env.Eval($"require('{constants.javascriptEntry}');");
             jsEnv = env;
         }
 
@@ -80,17 +75,13 @@ namespace Zes
 
         private void Start()
         {
-            Debug.Assert(bootConfig != null, "boot config cannot be null");
+            DontDestroyOnLoad(gameObject);
 
-            logger.Info("App starting");
-            DontDestroyOnLoad(gameObject); // dont destroy
+            Debug.Assert(bootConfig != null, "boot config cannot be null");
             instance = this;
             appConfig = JsonUtility.FromJson<AppConfig>(bootConfig.text);
-#if UNITY_EDITOR
-            loader = new ResourceLoaderForEditor();
-#else
-            loader = new ResourceLoaderForRuntime();
-#endif
+            loader = ResourceLoader.GetLoader();
+
             Restart();
         }
 
