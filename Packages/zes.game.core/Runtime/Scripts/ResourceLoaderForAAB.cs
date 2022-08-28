@@ -1,4 +1,5 @@
-﻿using Google.Play.AssetDelivery;
+﻿#if USING_AAB
+using Google.Play.AssetDelivery;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -33,3 +34,4 @@ namespace Zes
 
     }
 }
+#endif

@@ -5,12 +5,13 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEditor;
 
 namespace Zes.Builders
 {
     public class BuildJavascript : BuildTask
     {
-        public BuildJavascript(AppConstants constants) : base(constants) { }
+        public BuildJavascript(AppConstants constants, BuildTarget target) : base(constants, target) { }
 
         public override string name => "Javascript";
 

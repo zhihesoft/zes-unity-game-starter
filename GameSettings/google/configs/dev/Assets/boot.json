@@ -1,9 +1,0 @@
-{
-    "name": "dev",
-    "appLanguage": "zh-cn",
-    "loginServer": "http://localhost:3000/",
-    "allowGuest": true,
-    "patchServer": "http://localhost:3001/",
-    "minVersion": "1.0.0",
-    "checkUpdate": false
-}

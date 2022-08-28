@@ -1,16 +1,20 @@
-﻿namespace Zes.Builders
+﻿using UnityEditor;
+
+namespace Zes.Builders
 {
     public abstract class BuildTask
     {
-        public BuildTask(AppConstants constants)
+        public BuildTask(AppConstants constants, BuildTarget target)
         {
             this.constants = constants;
+            this.target = target;
         }
 
         public abstract string name { get; }
 
         protected readonly Logger logger = Logger.GetLogger<BuildTask>();
         protected readonly AppConstants constants;
+        protected readonly BuildTarget target;
 
         public bool Build()
         {

@@ -1,6 +1,5 @@
 {
-    "name": "google",
-    "description": "",
+    "name": "test",
     "androidKeystorePassword": "",
     "androidKeyAliasPassword": ""
 }

@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using Zes.Settings;
@@ -52,6 +53,68 @@ namespace Zes
             SaveJsonObj(config, path);
         }
 
+        public static string[] GetBuildScenes()
+        {
+            string[] scenes = EditorBuildSettings.scenes
+                         .Where(scene => scene.enabled)
+                         .Select(scene => scene.path)
+                         .Select(s =>
+                         {
+                             return s;
+                         })
+                         .ToArray();
+            return scenes;
+        }
+
+        public static bool usingAAB(BuildTarget target)
+        {
+            if (target != BuildTarget.Android)
+            {
+                return false;
+            }
+
+#if USING_AAB
+            return true;
+#else
+            return false;
+#endif
+        }
+
+        public static string CurrentVersion()
+        {
+            return $"{Application.version}.{BuildNo.Get()}";
+        }
+
+        /// <summary>
+        /// clear any file in project if it present in template dir
+        /// </summary>
+        /// <param name="templateDir"></param>
+        /// <returns></returns>
+        public static void ClearTemplateFiles(string templateDir)
+        {
+            ClearTemplateFiles(templateDir, null);
+        }
+
+        private static void ClearTemplateFiles(string templateDir, string childDir)
+        {
+            childDir = childDir ?? ".";
+            string fromDir = Path.Combine(templateDir, childDir);
+            string toDir = Path.Combine(".", childDir);
+            var dir = new DirectoryInfo(fromDir);
+            dir.GetFiles().ToList().ForEach(file =>
+            {
+                string toFile = Path.Combine(toDir, file.Name);
+                if (File.Exists(toFile))
+                {
+                    File.Delete(toFile);
+                }
+            });
+            dir.GetDirectories().ToList().ForEach(dir =>
+            {
+                ClearTemplateFiles(templateDir, Path.Combine(childDir, dir.Name));
+            });
+        }
+
         private static void SaveJsonObj<T>(T obj, string path) where T : class
         {
             var json = JsonUtility.ToJson(obj, true);
@@ -69,6 +132,7 @@ namespace Zes
             var obj = JsonUtility.FromJson<T>(content);
             return obj;
         }
+
 
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using UnityEngine;
 
 namespace Zes
 {
@@ -10,6 +9,16 @@ namespace Zes
         /// Config name
         /// </summary>
         public string name = "";
+
+        /// <summary>
+        /// App short name
+        /// </summary>
+        public string appShortName = "game";
+
+        /// <summary>
+        /// App display name
+        /// </summary>
+        public string appDisplayName = "game full name";
 
         /// <summary>
         /// 

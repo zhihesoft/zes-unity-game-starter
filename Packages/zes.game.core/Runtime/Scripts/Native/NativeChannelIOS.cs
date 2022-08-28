@@ -1,4 +1,6 @@
-﻿namespace Zes.Native
+﻿using System.Runtime.InteropServices;
+
+namespace Zes.Native
 {
     public class NativeChannelIOS : NativeChannel
     {

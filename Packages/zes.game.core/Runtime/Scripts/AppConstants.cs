@@ -5,6 +5,8 @@ namespace Zes
     [CreateAssetMenu(fileName = "appconstants", menuName = "Zes/App Constants", order = 1)]
     public class AppConstants : ScriptableObject
     {
+        public string shortName = "game";
+
         [Header("i18n")]
         public int languageStartId = 18000;
         public string languageConfigName = "language";
@@ -61,6 +63,12 @@ namespace Zes
         /// javascript entry for runtime
         /// </summary>
         public string javascriptEntryRuntime = "Assets/Bundles/texts/main.bytes";
+
+        /// <summary>
+        /// Output dir
+        /// </summary>
+        [Header("Output")]
+        public string outputDir = "out";
 
         public string javascriptEntry
         {

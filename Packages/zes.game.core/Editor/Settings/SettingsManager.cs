@@ -13,12 +13,11 @@ namespace Zes.Settings
     {
         private Logger logger = Logger.GetLogger<GameSettingsWindow>();
         public const string settingsSourceDir = "GameSettings";
-        public const string settingsTargetDir = "Assets/GameSettings";
+        public const string platformDirName = "platforms";
+        public const string configDirName = "configs";
         public const string gameConfigFileName = "boot.json";
         public const string gameConfigPath = "Assets/" + gameConfigFileName;
         public const string platformConfigFileName = "platform.json";
-        public const string templatePathName = "templates";
-        public const string configSourcePathName = "configs";
         public const string defaultConfigName = "dev";
 
         public AppConfig gameConfig { get; protected set; }
@@ -37,10 +36,12 @@ namespace Zes.Settings
             currentPanel = panels.Values.First();
             currentPanel.OnShow();
 
-            allConfigs = new DirectoryInfo(settingsSourceDir).GetDirectories().SelectMany(p =>
-                new DirectoryInfo(Path.Combine(p.FullName, configSourcePathName))
+            string platformdir = Path.Combine(settingsSourceDir, platformDirName);
+            string configdir = Path.Combine(settingsSourceDir, configDirName);
+
+            allConfigs = new DirectoryInfo(platformdir).GetDirectories().SelectMany(p =>
+                new DirectoryInfo(configdir)
                     .GetDirectories()
-                    .Where(d => d.Name != templatePathName)
                     .Select(d => $"{p.Name}/{d.Name}")
             ).ToArray();
 
@@ -86,7 +87,8 @@ namespace Zes.Settings
             {
                 EditorGUILayout.LabelField("Config invalid !!",
                     EditorStyles.centeredGreyMiniLabel,
-                    GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
+                    GUILayout.ExpandWidth(true),
+                    GUILayout.ExpandHeight(true));
                 return;
             }
 
@@ -145,23 +147,21 @@ namespace Zes.Settings
                         {
                             var newConfig = new PlatformConfig();
                             newConfig.name = newPlatformName;
-                            var targetdir = Path.Combine(settingsSourceDir, newConfig.name);
-                            Util.EnsureDir(targetdir);
-                            var templatedir = Path.Combine(targetdir, templatePathName);
+                            var targetPlatformDir = Path.Combine(settingsSourceDir, platformDirName, newConfig.name);
+                            Util.EnsureDir(targetPlatformDir);
+                            EditorHelper.SavePlatformConfig(newConfig, Path.Combine(targetPlatformDir, platformConfigFileName));
 
-                            // create templates dir
-                            Util.EnsureDir(templatedir);
-                            EditorHelper.SavePlatformConfig(newConfig, Path.Combine(templatedir, platformConfigFileName));
+                            // create default dev config
+                            var targetConfigDir = Path.Combine(settingsSourceDir, configDirName, defaultConfigName);
 
-                            // create configs dir
-                            var configsdir = Path.Combine(targetdir,
-                                configSourcePathName,
-                                defaultConfigName,
-                                "Assets");
-                            Util.EnsureDir(configsdir);
-
-                            // create a default config
-                            EditorHelper.SaveAppConfig(new AppConfig(), Path.Combine(configsdir, gameConfigFileName));
+                            if (!Directory.Exists(targetConfigDir))
+                            {
+                                Util.EnsureDir(targetConfigDir);
+                                Util.EnsureDir(Path.Combine(targetConfigDir, "Assets", "Resources"));
+                                // create a default config
+                                EditorHelper.SaveAppConfig(new AppConfig(),
+                                    Path.Combine(targetConfigDir, "Assets", "Resources", gameConfigFileName));
+                            }
                             EditorUtility.DisplayDialog("DONE", $"platform {newPlatformName} created", "OK");
                             newPlatformName = "";
                             showCreatePanel = false;
@@ -206,8 +206,7 @@ namespace Zes.Settings
             var newIndex = EditorGUILayout.Popup(currentIndexOfConfig, allConfigs);
             if (newIndex != currentIndexOfConfig)
             {
-                currentIndexOfConfig = newIndex;
-                ApplyConfig();
+                ApplyConfig(newIndex);
             }
             if (GUILayout.Button("+", EditorStyles.miniButton, GUILayout.Width(32)))
             {
@@ -216,42 +215,64 @@ namespace Zes.Settings
             EditorGUILayout.EndHorizontal();
         }
 
-        private void ApplyConfig()
+        private void ApplyConfig(int newIndex)
+        {
+            string[] names = GetPlatformAndConfigName(currentIndexOfConfig);
+            string platformTemplateDir;
+            string configTemplateDir;
+            if (names != null)
+            {
+                platformTemplateDir = Path.Combine(settingsSourceDir, platformDirName, names[0]);
+                configTemplateDir = Path.Combine(settingsSourceDir, configDirName, names[1]);
+                EditorHelper.ClearTemplateFiles(platformTemplateDir);
+                EditorHelper.ClearTemplateFiles(configTemplateDir);
+            }
+
+            currentIndexOfConfig = newIndex;
+            names = GetPlatformAndConfigName(currentIndexOfConfig);
+            platformTemplateDir = Path.Combine(settingsSourceDir, platformDirName, names[0]);
+            configTemplateDir = Path.Combine(settingsSourceDir, configDirName, names[1]);
+
+            Util.CopyDir(platformTemplateDir, ".");
+            Util.CopyDir(configTemplateDir, ".");
+
+            LoadConfigs();
+
+            if (gameConfig.name != names[1])
+            {
+                gameConfig.name = names[1];
+                EditorHelper.SaveAppConfig(gameConfig);
+            }
+
+            if (platformConfig.name != names[0])
+            {
+                platformConfig.name = names[0];
+                EditorHelper.SavePlatformConfig(platformConfig);
+            }
+
+            AssetDatabase.Refresh();
+        }
+
+        private string[] GetPlatformAndConfigName(int index)
+        {
+            if (index < 0)
+            {
+                return null;
+            }
+
+            var configname = allConfigs[index];
+            var parts = configname.Split('/');
+            var platformname = parts[0].Trim();
+            configname = parts[1].Trim();
+            return new string[] { platformname, configname };
+        }
+
+        private void ClearConfigFiles(int configIndex)
         {
             var configname = allConfigs[currentIndexOfConfig];
             var parts = configname.Split('/');
             var platformname = parts[0].Trim();
             configname = parts[1].Trim();
-
-            Util.ClearDir(settingsTargetDir);
-            // delete csc.rsp
-            if (File.Exists("csc.rsp"))
-            {
-                File.Delete("csc.rsp");
-            }
-
-            var platformSourceDir = Path.Combine(settingsSourceDir, platformname, templatePathName);
-            logger.Info($"copy platform source from {platformSourceDir}");
-            Util.CopyDir(platformSourceDir, ".");
-            var configSourceDir = Path.Combine(settingsSourceDir, platformname, configSourcePathName, configname);
-            logger.Info($"copy config source from {platformSourceDir}");
-            Util.CopyDir(configSourceDir, ".");
-
-            LoadConfigs();
-
-            if (gameConfig.name != configname)
-            {
-                gameConfig.name = configname;
-                EditorHelper.SaveAppConfig(gameConfig);
-            }
-
-            if (platformConfig.name != platformname)
-            {
-                platformConfig.name = platformname;
-                EditorHelper.SavePlatformConfig(platformConfig);
-            }
-
-            AssetDatabase.Refresh();
         }
 
     }

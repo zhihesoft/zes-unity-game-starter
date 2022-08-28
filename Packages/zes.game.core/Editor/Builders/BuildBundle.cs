@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEditor;
@@ -9,12 +8,8 @@ namespace Zes.Builders
 {
     public class BuildBundle : BuildTask
     {
-        public BuildBundle(AppConstants constants, BuildTarget target) : base(constants)
-        {
-            this.target = target;
-        }
+        public BuildBundle(AppConstants constants, BuildTarget target) : base(constants, target) { }
 
-        private BuildTarget target;
         private AppConfig appConfig;
 
         private string targetName;
@@ -23,12 +18,10 @@ namespace Zes.Builders
         private Dictionary<string, string> allFiles;
         private int buildNo;
 
-
         public override string name => "Bundle";
 
         protected override void AfterBuild()
         {
-            BuildNo.Inc();
             AssetDatabase.Refresh();
         }
 
@@ -72,7 +65,7 @@ namespace Zes.Builders
         {
             VersionInfo vi = new VersionInfo();
             vi.url = url;
-            vi.version = Application.version + "." + buildNo;
+            vi.version = EditorHelper.CurrentVersion();
             vi.minVersion = appConfig.minVersion;
             vi.Save(Path.Combine(bundlesDir, constants.versionInfoFile));
             return vi;
@@ -82,7 +75,7 @@ namespace Zes.Builders
         {
             PatchInfo pi = new PatchInfo();
             pi.url = url;
-            pi.version = Application.version + "." + buildNo;
+            pi.version = EditorHelper.CurrentVersion();
             pi.files = allFiles
                 .Select(file => new PatchFileInfo()
                 {
@@ -108,11 +101,7 @@ namespace Zes.Builders
             DirectoryInfo di = new DirectoryInfo(streamingDir);
             di.GetFiles().ToList().ForEach(file => file.Delete());
 
-#if USING_AAB
-            bool copyToStreaming = false;
-#else
-            bool copyToStreaming = true;
-#endif
+            bool copyToStreaming = EditorHelper.usingAAB(target);
 
             if (copyToStreaming)
             {

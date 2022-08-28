@@ -18,7 +18,7 @@ namespace Zes.Builders
             }
         }
 
-        public BuildConfigurations(AppConstants constants) : base(constants) { }
+        public BuildConfigurations(AppConstants constants, BuildTarget target) : base(constants, target) { }
 
         public override string name => "Configurations";
 
