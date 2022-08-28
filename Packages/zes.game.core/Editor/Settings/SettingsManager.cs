@@ -13,6 +13,7 @@ namespace Zes.Settings
     {
         private Logger logger = Logger.GetLogger<GameSettingsWindow>();
         public const string settingsSourceDir = "GameSettings";
+        public const string commonDirName = "common";
         public const string platformDirName = "platforms";
         public const string configDirName = "configs";
         public const string gameConfigFileName = "boot.json";
@@ -221,12 +222,18 @@ namespace Zes.Settings
             string[] names = GetPlatformAndConfigName(currentIndexOfConfig);
             string platformTemplateDir;
             string configTemplateDir;
+            string commonTemplateDir = Path.Combine(settingsSourceDir, commonDirName);
             if (names != null)
             {
+                // Remove Plugins dir
+                Util.ClearDir("Assets/Plugins");
+
                 platformTemplateDir = Path.Combine(settingsSourceDir, platformDirName, names[0]);
                 configTemplateDir = Path.Combine(settingsSourceDir, configDirName, names[1]);
                 EditorHelper.ClearTemplateFiles(platformTemplateDir);
                 EditorHelper.ClearTemplateFiles(configTemplateDir);
+                RemoveDeps();
+
             }
 
             currentIndexOfConfig = newIndex;
@@ -234,10 +241,12 @@ namespace Zes.Settings
             platformTemplateDir = Path.Combine(settingsSourceDir, platformDirName, names[0]);
             configTemplateDir = Path.Combine(settingsSourceDir, configDirName, names[1]);
 
+            Util.CopyDir(commonTemplateDir, ".");
             Util.CopyDir(platformTemplateDir, ".");
             Util.CopyDir(configTemplateDir, ".");
 
             LoadConfigs();
+            AddDeps();
 
             if (gameConfig.name != names[1])
             {
@@ -251,7 +260,8 @@ namespace Zes.Settings
                 EditorHelper.SavePlatformConfig(platformConfig);
             }
 
-            AssetDatabase.Refresh();
+            EditorApplication.OpenProject(".");
+            // AssetDatabase.Refresh();
         }
 
         private string[] GetPlatformAndConfigName(int index)
@@ -268,13 +278,22 @@ namespace Zes.Settings
             return new string[] { platformname, configname };
         }
 
-        private void ClearConfigFiles(int configIndex)
+        private void RemoveDeps()
         {
-            var configname = allConfigs[currentIndexOfConfig];
-            var parts = configname.Split('/');
-            var platformname = parts[0].Trim();
-            configname = parts[1].Trim();
+            if (platformConfig.dependencies != null && platformConfig.dependencies.Length > 0)
+            {
+                var all = string.Join(' ', platformConfig.dependencies);
+                EditorHelper.Shell("openupm", $"remove {all}");
+            }
         }
 
+        private void AddDeps()
+        {
+            if (platformConfig.dependencies != null && platformConfig.dependencies.Length > 0)
+            {
+                var all = string.Join(' ', platformConfig.dependencies);
+                EditorHelper.Shell("openupm", $"add {all}");
+            }
+        }
     }
 }

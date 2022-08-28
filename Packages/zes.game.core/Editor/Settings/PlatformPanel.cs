@@ -1,4 +1,8 @@
-﻿namespace Zes.Settings
+﻿using System.Linq;
+using UnityEditor;
+using UnityEngine;
+
+namespace Zes.Settings
 {
     public class PlatformPanel : SettingPanel
     {
@@ -10,8 +14,44 @@
 
         public override void OnGUI()
         {
-            manager.platformConfig.androidKeystorePassword = TextField("Android keystore pwd", manager.platformConfig.androidKeystorePassword);
-            manager.platformConfig.androidKeyAliasPassword = TextField("Android keyalias pwd", manager.platformConfig.androidKeyAliasPassword);
+            var config = manager.platformConfig;
+            config.androidKeystorePassword = TextField("Android keystore pwd", config.androidKeystorePassword);
+            config.androidKeyAliasPassword = TextField("Android keyalias pwd", config.androidKeyAliasPassword);
+            config.dependencies = config.dependencies ?? new string[0];
+            using (new GUILayout.VerticalScope())
+            {
+                using (new GUILayout.HorizontalScope())
+                {
+                    EditorGUILayout.LabelField("Dependencies");
+                    if (GUILayout.Button("+", EditorStyles.miniButton))
+                    {
+                        config.dependencies = config.dependencies.Append("").ToArray();
+                    }
+                    GUILayout.FlexibleSpace();
+                }
+                using (new GUIIndent())
+                {
+                    var deps = config.dependencies.ToList();
+
+                    for (int i = 0; i < deps.Count; i++)
+                    {
+                        using (new GUILayout.HorizontalScope())
+                        {
+                            string newstr = EditorGUILayout.TextField(config.dependencies[i]);
+                            if (newstr != config.dependencies[i])
+                            {
+                                dirty = true;
+                                config.dependencies[i] = newstr;
+                            }
+                            if (GUILayout.Button("-", GUILayout.Width(32)))
+                            {
+                                dirty = true;
+                                config.dependencies = config.dependencies.Where((d, idx) => idx != i).ToArray();
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

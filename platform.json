@@ -1,5 +1,6 @@
 {
     "name": "dev",
     "androidKeystorePassword": "",
-    "androidKeyAliasPassword": ""
+    "androidKeyAliasPassword": "",
+    "dependencies": []
 }

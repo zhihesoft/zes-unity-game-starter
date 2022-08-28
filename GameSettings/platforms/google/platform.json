@@ -1,6 +1,10 @@
 {
     "name": "google",
-    "description": "",
     "androidKeystorePassword": "",
-    "androidKeyAliasPassword": ""
+    "androidKeyAliasPassword": "",
+    "dependencies": [
+        "com.google.play.assetdelivery",
+        "com.google.android.appbundle",
+		"com.google.external-dependency-manager"
+    ]
 }

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -83,6 +84,20 @@ namespace Zes
         public static string CurrentVersion()
         {
             return $"{Application.version}.{BuildNo.Get()}";
+        }
+
+        public static int Shell(string filename, string arguments, string workingDir = null)
+        {
+            ProcessStartInfo startInfo = new ProcessStartInfo();
+            if (!string.IsNullOrEmpty(workingDir))
+            {
+                startInfo.WorkingDirectory = workingDir;
+            }
+            startInfo.FileName = filename;
+            startInfo.Arguments = arguments;
+            var proc = Process.Start(startInfo);
+            proc.WaitForExit();
+            return proc.ExitCode;
         }
 
         /// <summary>

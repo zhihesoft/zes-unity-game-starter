@@ -12,6 +12,8 @@ namespace Zes
         public string androidKeystorePassword;
         // Android 签名密码
         public string androidKeyAliasPassword;
+        // dependences (will install by openupm)
+        public string[] dependencies;
 
         public static PlatformConfig Load()
         {

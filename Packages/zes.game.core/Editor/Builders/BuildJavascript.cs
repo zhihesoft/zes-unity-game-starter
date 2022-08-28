@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.IO;
+﻿using System.IO;
 using UnityEditor;
 
 namespace Zes.Builders
@@ -21,16 +20,10 @@ namespace Zes.Builders
 
         protected override bool OnBuild()
         {
-            ProcessStartInfo startInfo = new ProcessStartInfo();
-            startInfo.WorkingDirectory = constants.javascriptProjectPath;
-            startInfo.FileName = "gulp";
-            startInfo.Arguments = "build";
-            var proc = Process.Start(startInfo);
-            proc.WaitForExit();
-
-            if (proc.ExitCode != 0)
+            var exitCode = EditorHelper.Shell("gulp", "build", constants.javascriptProjectPath);
+            if (exitCode != 0)
             {
-                logger.Error("build ts source failed with code " + proc.ExitCode);
+                logger.Error("build ts source failed with code " + exitCode);
                 return false;
             }
 
