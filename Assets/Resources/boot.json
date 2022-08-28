@@ -1,0 +1,11 @@
+{
+    "name": "",
+    "appShortName": "game",
+    "appDisplayName": "game full name",
+    "appLanguage": "zh-cn",
+    "loginServer": "",
+    "allowGuest": false,
+    "patchServer": "",
+    "minVersion": "",
+    "checkUpdate": true
+}

@@ -39,6 +39,10 @@ namespace Zes.Settings
 
             string platformdir = Path.Combine(settingsSourceDir, platformDirName);
             string configdir = Path.Combine(settingsSourceDir, configDirName);
+            string commonDir = Path.Combine(settingsSourceDir, commonDirName);
+            Util.EnsureDir(platformdir);
+            Util.EnsureDir(configdir);
+            Util.EnsureDir(commonDir);
 
             allConfigs = new DirectoryInfo(platformdir).GetDirectories().SelectMany(p =>
                 new DirectoryInfo(configdir)
