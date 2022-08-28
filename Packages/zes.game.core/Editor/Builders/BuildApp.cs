@@ -5,6 +5,20 @@ namespace Zes.Builders
 {
     public class BuildApp : BuildTask
     {
+
+        public static string outputDir
+        {
+            get
+            {
+                return EditorPrefs.GetString("appOutputPathKey", "");
+            }
+            set
+            {
+                EditorPrefs.SetString("appOutputPathKey", value);
+            }
+        }
+
+
         public BuildApp(AppConstants constants, BuildTarget target) : base(constants, target) { }
 
         public override string name => "App";
@@ -26,7 +40,7 @@ namespace Zes.Builders
 
         protected override bool OnBuild()
         {
-            Util.EnsureDir(constants.outputDir);
+            Util.EnsureDir(outputDir);
             string extension = "";
             if (EditorHelper.usingAAB(target))
             {
@@ -37,7 +51,7 @@ namespace Zes.Builders
                 extension = ".apk";
             }
             string outputPath = string.Format("{0}/{1}-{2}-{3}{4}",
-                constants.outputDir,
+                outputDir,
                 constants.shortName,
                 EditorHelper.CurrentVersion(),
                 DateTime.Now.ToString("yyMMddHHmm"),

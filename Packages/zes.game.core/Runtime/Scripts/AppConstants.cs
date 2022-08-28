@@ -64,12 +64,6 @@ namespace Zes
         /// </summary>
         public string javascriptEntryRuntime = "Assets/Bundles/texts/main.bytes";
 
-        /// <summary>
-        /// Output dir
-        /// </summary>
-        [Header("Output")]
-        public string outputDir = "out";
-
         public string javascriptEntry
         {
             get

@@ -101,6 +101,7 @@ namespace Zes.Settings
                     if (currentPanel != null)
                     {
                         EditorGUILayout.LabelField(currentPanel.Description);
+                        EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
                         currentPanel.OnGUI();
                         if (currentPanel.dirty)
                         {
