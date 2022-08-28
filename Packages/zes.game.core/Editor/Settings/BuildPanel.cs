@@ -29,7 +29,6 @@ namespace Zes.Settings
                 BuildConfigurations.excelsPath = EditorGUILayout.TextField("Excels", BuildConfigurations.excelsPath);
                 BuildApp.outputDir = EditorGUILayout.TextField("Output Dir", BuildApp.outputDir);
                 EditorGUILayout.LabelField("Build no.", buildNo.ToString());
-
                 using (new EditorGUILayout.HorizontalScope())
                 {
                     GUILayout.FlexibleSpace();
