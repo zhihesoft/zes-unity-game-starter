@@ -223,6 +223,10 @@ namespace Zes.Settings
             string platformTemplateDir;
             string configTemplateDir;
             string commonTemplateDir = Path.Combine(settingsSourceDir, commonDirName);
+
+            string[] newNames = GetPlatformAndConfigName(newIndex);
+            bool platformChanged = names == null || names[0] != newNames[0];
+
             if (names != null)
             {
                 // Remove Plugins dir
@@ -232,8 +236,10 @@ namespace Zes.Settings
                 configTemplateDir = Path.Combine(settingsSourceDir, configDirName, names[1]);
                 EditorHelper.ClearTemplateFiles(platformTemplateDir);
                 EditorHelper.ClearTemplateFiles(configTemplateDir);
-                RemoveDeps();
-
+                if (platformChanged)
+                {
+                    RemoveDeps();
+                }
             }
 
             currentIndexOfConfig = newIndex;
@@ -246,7 +252,10 @@ namespace Zes.Settings
             Util.CopyDir(configTemplateDir, ".");
 
             LoadConfigs();
-            AddDeps();
+            if (platformChanged)
+            {
+                AddDeps();
+            }
 
             if (gameConfig.name != names[1])
             {
@@ -260,8 +269,14 @@ namespace Zes.Settings
                 EditorHelper.SavePlatformConfig(platformConfig);
             }
 
-            EditorApplication.OpenProject(".");
-            // AssetDatabase.Refresh();
+            if (platformChanged)
+            {
+                EditorApplication.OpenProject(".");
+            }
+            else
+            {
+                AssetDatabase.Refresh();
+            }
         }
 
         private string[] GetPlatformAndConfigName(int index)
