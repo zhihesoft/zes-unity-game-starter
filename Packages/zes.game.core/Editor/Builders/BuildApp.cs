@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Google.Android.AppBundle.Editor.AssetPacks;
+using Google.Android.AppBundle.Editor;
+using System;
 using UnityEditor;
 
 namespace Zes.Builders
@@ -40,6 +42,7 @@ namespace Zes.Builders
 
         protected override bool OnBuild()
         {
+            var appConfig = EditorHelper.LoadAppConfig();
             Util.EnsureDir(outputDir);
             string extension = "";
             if (EditorHelper.usingAAB(target))
@@ -52,7 +55,7 @@ namespace Zes.Builders
             }
             string outputPath = string.Format("{0}/{1}-{2}-{3}{4}",
                 outputDir,
-                constants.shortName,
+                appConfig.appShortName,
                 EditorHelper.CurrentVersion(),
                 DateTime.Now.ToString("yyMMddHHmm"),
                 extension
@@ -64,31 +67,33 @@ namespace Zes.Builders
             {
                 locationPathName = outputPath,
                 scenes = scenes,
-                target = BuildTarget.Android
-
+                target = target,
             };
 
             EditorUserBuildSettings.buildAppBundle = false;
-
+#if USING_AAB
+            opts.targetGroup = BuildTargetGroup.Android;
+            Google.Android.AppBundle.Editor.Internal.AppBundlePublisher.Build(opts, null, true);
+#else
             var report = BuildPipeline.BuildPlayer(opts);
 
-            //if (report.summary.result == UnityEditor.Build.Reporting.BuildResult.Failed)
-            //{
-            //    logger.error($"build {buildConfig.name} apk failed: {report.summary.totalErrors} errors");
-            //}
-            //if (report.summary.result == UnityEditor.Build.Reporting.BuildResult.Succeeded)
-            //{
-            //    logger.info($"build {buildConfig.name} succ !!");
-            //}
-            //if (report.summary.result == UnityEditor.Build.Reporting.BuildResult.Cancelled)
-            //{
-            //    logger.warn($"build {buildConfig.name} cancel");
-            //}
-            //if (report.summary.result == UnityEditor.Build.Reporting.BuildResult.Unknown)
-            //{
-            //    logger.error($"build {buildConfig.name} apk failed for unknown reason");
-            //}
-
+            if (report.summary.result == UnityEditor.Build.Reporting.BuildResult.Failed)
+            {
+                logger.Error($"build failed: {report.summary.totalErrors} errors");
+            }
+            if (report.summary.result == UnityEditor.Build.Reporting.BuildResult.Succeeded)
+            {
+                logger.Info($"build succ !!");
+            }
+            if (report.summary.result == UnityEditor.Build.Reporting.BuildResult.Cancelled)
+            {
+                logger.Warn($"build cancel");
+            }
+            if (report.summary.result == UnityEditor.Build.Reporting.BuildResult.Unknown)
+            {
+                logger.Error($"build failed for unknown reason");
+            }
+#endif
             return true;
         }
     }

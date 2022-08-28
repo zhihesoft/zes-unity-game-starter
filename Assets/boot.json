@@ -1,11 +1,11 @@
 {
-    "name": "dev_online",
+    "name": "dev_local",
     "appShortName": "game",
     "appDisplayName": "game full name",
     "appLanguage": "zh-cn",
-    "loginServer": "http://101.35.203.136:12081/",
+    "loginServer": "http://localhost:3000/game",
     "allowGuest": true,
-    "patchServer": "http://101.35.203.136:12082/",
-    "minVersion": "1.0.0",
+    "patchServer": "http://localhost:3001/patch",
+    "minVersion": "0.0.0",
     "checkUpdate": false
 }
