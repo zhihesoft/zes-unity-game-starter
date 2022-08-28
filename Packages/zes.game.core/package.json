@@ -1,7 +1,7 @@
 {
   "name": "zes.game.core",
   "displayName": "zes game core lib",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "core game lib for zhihesoft essential lib",
   "keywords": [
     "Script"
@@ -16,6 +16,7 @@
     "registry": "https://package.openupm.com"
   },
   "dependencies": {
+	"io.github.icsharpcode.sharpziplib": "1.2.0",
 	"com.tencent.puerts.core": "1.4.0-preview.6"
   }
 }
