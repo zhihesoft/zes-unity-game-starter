@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using UnityEditor;
@@ -98,6 +99,18 @@ namespace Zes
             var proc = Process.Start(startInfo);
             proc.WaitForExit();
             return proc.ExitCode;
+        }
+
+        public static string GetAppOutputName(AppConfig appConfig, PlatformConfig platformConfig)
+        {
+            string appOutputName = string.Join("-",
+                appConfig.appShortName,
+                platformConfig.name,
+                CurrentVersion(),
+                DateTime.Now.ToString("yyMMddHHmm")
+                );
+            return appOutputName;
+
         }
 
         /// <summary>

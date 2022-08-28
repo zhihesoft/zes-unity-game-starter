@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using Zes.Builders;
 
@@ -6,6 +7,7 @@ namespace Zes.Settings
 {
     public class BuildPanel : SettingPanel
     {
+        private Logger logger = Logger.GetLogger<BuildPanel>();
         public override string Name => "Build";
 
         public override string DisplayName => "Build";
@@ -31,7 +33,47 @@ namespace Zes.Settings
                 using (new EditorGUILayout.HorizontalScope())
                 {
                     GUILayout.FlexibleSpace();
-                    GUILayout.Button("Build", GUILayout.Width(64), GUILayout.Height(32));
+                    if (GUILayout.Button("Build Bundles", GUILayout.Width(128), GUILayout.Height(32)))
+                    {
+                        var constants = EditorHelper.LoadAppConstants();
+                        var tasks = new List<BuildTask>()
+                        {
+                            new BuildJavascript(constants, EditorUserBuildSettings.activeBuildTarget),
+                            new BuildConfigurations(constants, EditorUserBuildSettings.activeBuildTarget),
+                            new BuildBundle(constants, EditorUserBuildSettings.activeBuildTarget),
+                        };
+                        foreach (var task in tasks)
+                        {
+                            if (!task.Build())
+                            {
+                                logger.Error($"Abort: task {task.name} failed");
+                                return;
+                            }
+                        }
+
+                        buildNo = BuildNo.Inc();
+                    }
+                    if (GUILayout.Button("Build", GUILayout.Width(64), GUILayout.Height(32)))
+                    {
+                        var constants = EditorHelper.LoadAppConstants();
+                        var tasks = new List<BuildTask>()
+                        {
+                            new BuildJavascript(constants, EditorUserBuildSettings.activeBuildTarget),
+                            new BuildConfigurations(constants, EditorUserBuildSettings.activeBuildTarget),
+                            new BuildBundle(constants, EditorUserBuildSettings.activeBuildTarget),
+                            new BuildApp(constants, EditorUserBuildSettings.activeBuildTarget),
+                        };
+                        foreach (var task in tasks)
+                        {
+                            if (!task.Build())
+                            {
+                                logger.Error($"Abort: task {task.name} failed");
+                                return;
+                            }
+                        }
+
+                        buildNo = BuildNo.Inc();
+                    }
                 }
             }
         }

@@ -41,6 +41,7 @@ namespace Zes.Builders
         protected override bool OnBuild()
         {
             var appConfig = EditorHelper.LoadAppConfig();
+            var platConfig = EditorHelper.LoadPlatformConfig();
             Util.EnsureDir(outputDir);
             string extension = "";
             if (EditorHelper.usingAAB(target))
@@ -51,11 +52,11 @@ namespace Zes.Builders
             {
                 extension = ".apk";
             }
-            string outputPath = string.Format("{0}/{1}-{2}-{3}{4}",
+
+            string appOutputName = EditorHelper.GetAppOutputName(appConfig, platConfig);
+            string outputPath = string.Format("{0}/{1}{2}",
                 outputDir,
-                appConfig.appShortName,
-                EditorHelper.CurrentVersion(),
-                DateTime.Now.ToString("yyMMddHHmm"),
+                appOutputName,
                 extension
                 );
 

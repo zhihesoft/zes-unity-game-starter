@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using ICSharpCode.SharpZipLib.Zip;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEditor;
@@ -11,6 +12,7 @@ namespace Zes.Builders
         public BuildBundle(AppConstants constants, BuildTarget target) : base(constants, target) { }
 
         private AppConfig appConfig;
+        private PlatformConfig platformConfig;
 
         private string targetName;
         private string streamingDir;
@@ -34,6 +36,8 @@ namespace Zes.Builders
             streamingDir = Util.EnsureDir(Application.streamingAssetsPath).FullName;
 
             appConfig = EditorHelper.LoadAppConfig();
+            platformConfig = EditorHelper.LoadPlatformConfig();
+
             Util.ClearDir(bundlesDir);
             Util.ClearDir(streamingDir);
             Caching.ClearCache();
@@ -118,6 +122,21 @@ namespace Zes.Builders
             }
             File.Copy(Path.Combine(bundlesDir, constants.versionInfoFile), Path.Combine(streamingDir, constants.versionInfoFile), true);
             File.Copy(Path.Combine(bundlesDir, constants.patchInfoFile), Path.Combine(streamingDir, constants.patchInfoFile), true);
+
+            BuildPatchZip(EditorHelper.GetAppOutputName(appConfig, platformConfig));
+        }
+
+        void BuildPatchZip(string name)
+        {
+            var localDir = new DirectoryInfo(Path.Combine("AssetBundles", EditorUserBuildSettings.activeBuildTarget.ToString()));
+            Util.EnsureDir(BuildApp.outputDir);
+            FileInfo zipFile = new FileInfo(Path.Combine(BuildApp.outputDir, name + ".zip"));
+            using (ZipFile zip = ZipFile.Create(zipFile.FullName))
+            {
+                zip.BeginUpdate();
+                localDir.GetFiles("*.*").ToList().ForEach(file => zip.Add(file.FullName, file.Name));
+                zip.CommitUpdate();
+            }
         }
 
     }
