@@ -71,9 +71,9 @@ namespace Zes
             }
 
 #if USING_AAB
-            return true;
-#else
             return false;
+#else
+            return true;
 #endif
         }
 
