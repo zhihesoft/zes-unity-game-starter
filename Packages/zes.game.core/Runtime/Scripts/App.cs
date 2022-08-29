@@ -31,7 +31,6 @@ namespace Zes
 
 
         public AppInit appInit;
-        public TextAsset appConfigFile;
 
         private AppConfig appConfig;
         private JsEnv jsEnv;
@@ -76,15 +75,19 @@ namespace Zes
 
         private void Start()
         {
-            Debug.Assert(appConfigFile != null, "boot config cannot be null");
             DontDestroyOnLoad(gameObject);
 
+            var txt = Resources.Load<TextAsset>("app");
+            if (txt == null)
+            {
+                logger.Error($"Cannot find app.json in Resources directory");
+                return;
+            }
+            appConfig = JsonUtility.FromJson<AppConfig>(txt.text);
             native = NativeChannel.Create();
-
-            instance = this;
             appInit?.BeforeInit();
-            appConfig = JsonUtility.FromJson<AppConfig>(appConfigFile.text);
             loader = ResourceLoader.GetLoader();
+            instance = this;
             Restart();
         }
 

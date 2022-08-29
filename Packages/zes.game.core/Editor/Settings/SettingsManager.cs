@@ -15,8 +15,8 @@ namespace Zes.Settings
         public const string commonDirName = "common";
         public const string platformDirName = "platforms";
         public const string configDirName = "configs";
-        public const string gameConfigFileName = "boot.json";
-        public const string gameConfigPath = "Assets/" + gameConfigFileName;
+        public const string gameConfigFileName = "app.json";
+        public const string gameConfigPath = "Assets/Resources/" + gameConfigFileName;
         public const string platformConfigFileName = "platform.json";
         public const string defaultConfigName = "dev";
 
@@ -39,9 +39,11 @@ namespace Zes.Settings
             string platformdir = Path.Combine(settingsSourceDir, platformDirName);
             string configdir = Path.Combine(settingsSourceDir, configDirName);
             string commonDir = Path.Combine(settingsSourceDir, commonDirName);
+
             Util.EnsureDir(platformdir);
             Util.EnsureDir(configdir);
             Util.EnsureDir(commonDir);
+            Util.EnsureDir(Path.Combine("Assets", "Resources")); // ensure Resources dir exists
 
             allConfigs = new DirectoryInfo(platformdir).GetDirectories().SelectMany(p =>
                 new DirectoryInfo(configdir)
