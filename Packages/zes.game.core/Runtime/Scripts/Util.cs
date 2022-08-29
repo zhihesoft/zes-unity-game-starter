@@ -38,21 +38,6 @@ namespace Zes
             return stamp;
         }
 
-        /// <summary>
-        /// parse an asset path like: bundle:Assets/xxx/yyy to [bundle, path] formation
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        public static string[] ParseAssetPath(string path)
-        {
-            var parts = path.Split(':');
-            if (parts.Length < 2)
-            {
-                return parts;
-            }
-            return new string[] { parts[0].Trim(), parts[1].Trim() };
-        }
-
         // get no bom utf8 encoding
         public static Encoding Utf8WithoutBOM()
         {

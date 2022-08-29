@@ -2,6 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 using UnityEngine;
+using Zes.Native;
 
 namespace Zes
 {
@@ -11,6 +12,7 @@ namespace Zes
     public class App : MonoBehaviour
     {
         public static AppConfig config => instance.appConfig;
+        public static NativeChannel native { get; private set; }
         public static string persistentDataPath => Path.Combine(Application.persistentDataPath, config.patchDataPath);
         public static bool inEditor
         {
@@ -35,17 +37,6 @@ namespace Zes
         private JsEnv jsEnv;
         private JSLoader jsLoader;
         private Logger logger = Logger.GetLogger<App>();
-
-        private string javascriptEntry
-        {
-            get
-            {
-#if UNITY_EDITOR
-#endif
-                return "";
-            }
-        }
-
 
         private async Task InitJavascriptEnv()
         {
@@ -87,6 +78,8 @@ namespace Zes
         {
             Debug.Assert(appConfigFile != null, "boot config cannot be null");
             DontDestroyOnLoad(gameObject);
+
+            native = NativeChannel.Create();
 
             instance = this;
             appInit?.BeforeInit();

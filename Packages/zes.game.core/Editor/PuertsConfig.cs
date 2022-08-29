@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Video;
+using Zes.Native;
 
 namespace Zes
 {
@@ -52,6 +53,11 @@ namespace Zes
 
                     typeof(App),
                     typeof(AppConfig),
+                    typeof(ResourceLoader),
+                    typeof(NativeChannel),
+                    typeof(NativeCallState),
+                    typeof(NativeResponse),
+                    typeof(Util),
                 };
             }
         }
