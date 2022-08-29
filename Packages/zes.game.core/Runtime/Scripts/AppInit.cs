@@ -5,7 +5,7 @@ namespace Zes
 {
     public abstract class AppInit : MonoBehaviour
     {
-        public abstract void BeforeInit();
+        public virtual void OnStart() { }
         public abstract void OnInit(JsEnv env);
     }
 }

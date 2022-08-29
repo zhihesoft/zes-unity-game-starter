@@ -29,6 +29,11 @@ namespace Zes
         public static ResourceLoader loader { get; private set; }
         private static App instance;
 
+        public static async void Restart()
+        {
+            await instance.InitJavascriptEnv();
+        }
+
 
         public AppInit appInit;
 
@@ -68,11 +73,6 @@ namespace Zes
             jsEnv = env;
         }
 
-        public async void Restart()
-        {
-            await InitJavascriptEnv();
-        }
-
         private void Start()
         {
             DontDestroyOnLoad(gameObject);
@@ -85,9 +85,11 @@ namespace Zes
             }
             appConfig = JsonUtility.FromJson<AppConfig>(txt.text);
             native = NativeChannel.Create();
-            appInit?.BeforeInit();
             loader = ResourceLoader.GetLoader();
             instance = this;
+
+            appInit?.OnStart();
+
             Restart();
         }
 
