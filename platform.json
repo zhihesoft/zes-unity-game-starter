@@ -1,5 +1,11 @@
 {
     "name": "dev",
+    "languageStartId": 18000,
+    "languageConfigName": "language",
+    "bundleOutputPath": "AssetBundles",
+    "configurationBundlePath": "Assets/Bundles/conf",
+    "javascriptProjectPath": "Typescripts",
+    "javascriptBuildResult": "./out/main.bytes",
     "androidKeystorePassword": "",
     "androidKeyAliasPassword": "",
     "dependencies": []

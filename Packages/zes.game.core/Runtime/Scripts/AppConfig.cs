@@ -13,7 +13,7 @@ namespace Zes
         /// <summary>
         /// App short name
         /// </summary>
-        public string appShortName = "game";
+        public string appName = "game";
 
         /// <summary>
         /// App display name
@@ -51,6 +51,35 @@ namespace Zes
         /// </summary>
         public bool checkUpdate = true;
 
+        /// <summary>
+        /// patch data dir
+        /// </summary>
+        public string patchDataPath = "patch_data";
+
+        /// <summary>
+        /// patch info file name
+        /// </summary>
+        public string patchInfoFile = "patch.json";
+
+        /// <summary>
+        /// version info file name
+        /// </summary>
+        public string versionInfoFile = "version.json";
+
+        /// <summary>
+        /// javascript entry for runtime
+        /// </summary>
+        public string javascriptBundle = "js";
+
+        /// <summary>
+        /// javascript entry for runtime
+        /// </summary>
+        public string javascriptData = "Assets/Bundles/js/main.bytes";
+
+        /// <summary>
+        /// javascript entry for runtime
+        /// </summary>
+        public string javascriptEntry = "Typescripts/dist/index.js";
 
     }
 }

@@ -1,11 +1,9 @@
-﻿using System;
-using UnityEditor;
+﻿using UnityEditor;
 
 namespace Zes.Builders
 {
     public class BuildApp : BuildTask
     {
-
         public static string outputDir
         {
             get
@@ -19,13 +17,10 @@ namespace Zes.Builders
         }
 
 
-        public BuildApp(AppConstants constants, BuildTarget target) : base(constants, target) { }
 
         public override string name => "App";
 
-        protected override void AfterBuild()
-        {
-        }
+        protected override void AfterBuild() { }
 
         protected override bool BeforeBuild()
         {
@@ -40,8 +35,6 @@ namespace Zes.Builders
 
         protected override bool OnBuild()
         {
-            var appConfig = EditorHelper.LoadAppConfig();
-            var platConfig = EditorHelper.LoadPlatformConfig();
             Util.EnsureDir(outputDir);
             string extension = "";
             if (EditorHelper.usingAAB(target))
@@ -53,7 +46,7 @@ namespace Zes.Builders
                 extension = ".apk";
             }
 
-            string appOutputName = EditorHelper.GetAppOutputName(appConfig, platConfig);
+            string appOutputName = EditorHelper.GetAppOutputName(appConfig, platformConfig);
             string outputPath = string.Format("{0}/{1}{2}",
                 outputDir,
                 appOutputName,

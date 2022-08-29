@@ -31,6 +31,16 @@ namespace Zes.Settings
             return ret;
         }
 
+        protected int IntField(string label, int value)
+        {
+            int ret = EditorGUILayout.IntField(label, value);
+            if (!dirty)
+            {
+                dirty = ret != value;
+            }
+            return ret;
+        }
+
         protected bool BoolField(string label, bool value)
         {
             var ret = EditorGUILayout.Toggle(label, value);

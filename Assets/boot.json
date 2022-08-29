@@ -7,5 +7,11 @@
     "allowGuest": true,
     "patchServer": "http://localhost:3001/patch",
     "minVersion": "0.0.0",
-    "checkUpdate": false
+    "checkUpdate": false,
+    "patchDataPath": "patch_data",
+    "patchInfoFile": "patch.json",
+    "versionInfoFile": "version.json",
+    "javascriptBundle": "js",
+    "javascriptData": "Assets/Bundles/js/main.bytes",
+    "javascriptEntry": "Typescripts/dist/index.js"
 }

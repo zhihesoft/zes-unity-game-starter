@@ -18,13 +18,10 @@ namespace Zes.Builders
             }
         }
 
-        public BuildConfigurations(AppConstants constants, BuildTarget target) : base(constants, target) { }
 
         public override string name => "Configurations";
 
-        protected override void AfterBuild()
-        {
-        }
+        protected override void AfterBuild() { }
 
         protected override bool BeforeBuild()
         {
@@ -44,14 +41,18 @@ namespace Zes.Builders
             DirectoryInfo outDir = new DirectoryInfo(Path.Combine(workDir.FullName, "output"));
             DirectoryInfo outClientDir = new DirectoryInfo(Path.Combine(workDir.FullName, "output", "client"));
             DirectoryInfo outLanguageDir = new DirectoryInfo(Path.Combine(workDir.FullName, "output", "language"));
-            DirectoryInfo targetDir = new DirectoryInfo(constants.configurationBundlePath);
+            DirectoryInfo targetDir = new DirectoryInfo(platformConfig.configurationBundlePath);
             Util.EnsureDir(targetDir.FullName);
             Util.EnsureDir(outDir.FullName);
 
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.WorkingDirectory = workDir.FullName;
             startInfo.FileName = "zes-excel-exporter";
-            startInfo.Arguments = $"-i {excelDir.FullName} -o {outDir.FullName} --lid {constants.languageStartId} -l {constants.languageConfigName}";
+            startInfo.Arguments = string.Join(' ',
+                "-i", excelDir.FullName,
+                "-o", outDir.FullName,
+                "--lid", platformConfig.languageStartId,
+                "-l", platformConfig.languageConfigName);
             logger.Info($"run {startInfo.FileName} {startInfo.Arguments}");
             var proc = Process.Start(startInfo);
             proc.WaitForExit();

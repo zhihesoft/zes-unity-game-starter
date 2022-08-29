@@ -4,20 +4,21 @@ namespace Zes.Builders
 {
     public abstract class BuildTask
     {
-        public BuildTask(AppConstants constants, BuildTarget target)
+        public BuildTask()
         {
-            this.constants = constants;
-            this.target = target;
         }
 
         public abstract string name { get; }
 
         protected readonly Logger logger = Logger.GetLogger<BuildTask>();
-        protected readonly AppConstants constants;
-        protected readonly BuildTarget target;
+        protected BuildRunner runner;
+        protected AppConfig appConfig => runner.appConfig;
+        protected PlatformConfig platformConfig => runner.platformConfig;
+        protected BuildTarget target => runner.target;
 
-        public bool Build()
+        public bool Build(BuildRunner runner)
         {
+            this.runner = runner;
             if (!BeforeBuild())
             {
                 logger.Error($"{name} before build failed");

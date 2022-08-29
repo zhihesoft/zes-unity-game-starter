@@ -11,7 +11,6 @@ namespace Zes.Settings
     /// </summary>
     public class SettingsManager
     {
-        private Logger logger = Logger.GetLogger<GameSettingsWindow>();
         public const string settingsSourceDir = "GameSettings";
         public const string commonDirName = "common";
         public const string platformDirName = "platforms";
@@ -21,7 +20,7 @@ namespace Zes.Settings
         public const string platformConfigFileName = "platform.json";
         public const string defaultConfigName = "dev";
 
-        public AppConfig gameConfig { get; protected set; }
+        public AppConfig appConfig { get; protected set; }
         public PlatformConfig platformConfig { get; protected set; }
 
         protected Dictionary<string, SettingPanel> panels = new Dictionary<string, SettingPanel>();
@@ -54,7 +53,7 @@ namespace Zes.Settings
 
             if (IsConfigValid())
             {
-                var currentconfigname = $"{platformConfig.name}/{gameConfig.name}";
+                var currentconfigname = $"{platformConfig.name}/{appConfig.name}";
                 currentIndexOfConfig = allConfigs.ToList().IndexOf(currentconfigname);
             }
         }
@@ -62,15 +61,15 @@ namespace Zes.Settings
         protected virtual void InitializePanels()
         {
             panels.Clear();
-            AddPanel(new GameConfigPanel());
-            AddPanel(new PlatformPanel());
+            AddPanel(new AppConfigPanel());
+            AddPanel(new PlatformConfigPanel());
             // AddPanel(new SpacePanel("space"));
             AddPanel(new BuildPanel());
         }
 
         private void LoadConfigs()
         {
-            gameConfig = EditorHelper.LoadAppConfig();
+            appConfig = EditorHelper.LoadAppConfig();
             platformConfig = EditorHelper.LoadPlatformConfig();
         }
 
@@ -110,7 +109,7 @@ namespace Zes.Settings
                         currentPanel.OnGUI();
                         if (currentPanel.dirty)
                         {
-                            EditorHelper.SaveAppConfig(gameConfig);
+                            EditorHelper.SaveAppConfig(appConfig);
                             EditorHelper.SavePlatformConfig(platformConfig);
                             currentPanel.dirty = false;
                             refresAsset = true;
@@ -126,7 +125,7 @@ namespace Zes.Settings
 
         protected bool IsConfigValid()
         {
-            return gameConfig != null && platformConfig != null;
+            return appConfig != null && platformConfig != null;
         }
 
         private void AddPanel(SettingPanel panel)
@@ -261,10 +260,10 @@ namespace Zes.Settings
                 AddDeps();
             }
 
-            if (gameConfig.name != names[1])
+            if (appConfig.name != names[1])
             {
-                gameConfig.name = names[1];
-                EditorHelper.SaveAppConfig(gameConfig);
+                appConfig.name = names[1];
+                EditorHelper.SaveAppConfig(appConfig);
             }
 
             if (platformConfig.name != names[0])

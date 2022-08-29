@@ -1,12 +1,9 @@
 ﻿using System.IO;
-using UnityEditor;
 
 namespace Zes.Builders
 {
     public class BuildJavascript : BuildTask
     {
-        public BuildJavascript(AppConstants constants, BuildTarget target) : base(constants, target) { }
-
         public override string name => "Javascript";
 
         protected override void AfterBuild()
@@ -20,20 +17,20 @@ namespace Zes.Builders
 
         protected override bool OnBuild()
         {
-            var exitCode = EditorHelper.Shell("gulp", "build", constants.javascriptProjectPath);
+            var exitCode = EditorHelper.Shell("gulp", "build", platformConfig.javascriptProjectPath);
             if (exitCode != 0)
             {
                 logger.Error("build ts source failed with code " + exitCode);
                 return false;
             }
 
-            var source = new FileInfo(Path.Combine(constants.javascriptProjectPath, constants.javascriptBuildResult));
+            var source = new FileInfo(Path.Combine(platformConfig.javascriptProjectPath, platformConfig.javascriptBuildResult));
             if (!source.Exists)
             {
                 logger.Error($"{source.FullName} not existed");
                 return false;
             }
-            var target = new FileInfo(constants.javascriptEntryRuntime);
+            var target = new FileInfo(appConfig.javascriptData);
             source.CopyTo(target.FullName, true);
             return true;
         }

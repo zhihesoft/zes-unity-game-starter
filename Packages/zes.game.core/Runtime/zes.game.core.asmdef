@@ -3,7 +3,6 @@
     "references": [
 		"com.tencent.puerts.core",
         "Google.Play.AssetDelivery"
-
 	],
     "includePlatforms": [],
     "excludePlatforms": [],

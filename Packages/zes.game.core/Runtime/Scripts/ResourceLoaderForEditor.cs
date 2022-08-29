@@ -1,8 +1,6 @@
 ﻿#if UNITY_EDITOR
 
 using System;
-using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 using UnityEditor;
 using UnityEditor.SceneManagement;

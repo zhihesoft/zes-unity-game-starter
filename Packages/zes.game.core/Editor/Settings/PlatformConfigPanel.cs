@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Zes.Settings
 {
-    public class PlatformPanel : SettingPanel
+    public class PlatformConfigPanel : SettingPanel
     {
         public override string Name => "Platform";
 
@@ -17,6 +17,30 @@ namespace Zes.Settings
             var config = manager.platformConfig;
             config.androidKeystorePassword = TextField("Android keystore pwd", config.androidKeystorePassword);
             config.androidKeyAliasPassword = TextField("Android keyalias pwd", config.androidKeyAliasPassword);
+
+            EditorGUILayout.LabelField("i18n");
+            using (new GUIIndent())
+            {
+                config.languageStartId = IntField("Language start id", config.languageStartId);
+                config.languageConfigName = TextField("Language config name", config.languageConfigName);
+            }
+
+            EditorGUILayout.LabelField("Bundle");
+            using (new GUIIndent())
+            {
+                config.bundleOutputPath = TextField("Bundle output path", config.bundleOutputPath);
+                config.configurationBundlePath = TextField("Config bundle path", config.configurationBundlePath);
+            }
+
+            EditorGUILayout.LabelField("Javascript");
+            using (new GUIIndent())
+            {
+                config.javascriptProjectPath = TextField("Javascript project", config.javascriptProjectPath);
+                config.javascriptBuildResult = TextField("Javascript build result", config.javascriptBuildResult);
+            }
+
+            EditorGUILayout.Space();
+            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
             config.dependencies = config.dependencies ?? new string[0];
             using (new GUILayout.VerticalScope())
             {

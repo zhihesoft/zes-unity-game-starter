@@ -10,11 +10,6 @@ namespace Zes
 {
     public static class EditorHelper
     {
-        public static AppConstants LoadAppConstants()
-        {
-            return AssetDatabase.LoadAssetAtPath<AppConstants>("Assets/appconstants.asset");
-        }
-
         public static AppConfig LoadAppConfig()
         {
             return LoadAppConfig(SettingsManager.gameConfigPath);
@@ -103,11 +98,12 @@ namespace Zes
 
         public static string GetAppOutputName(AppConfig appConfig, PlatformConfig platformConfig)
         {
-            string appOutputName = string.Join("-",
-                appConfig.appShortName,
+            string appOutputName = string.Join("_",
+                appConfig.appName,
                 platformConfig.name,
+                appConfig.name,
                 CurrentVersion(),
-                DateTime.Now.ToString("yyMMddHHmm")
+                DateTime.Now.ToString("yyyyMMdd")
                 );
             return appOutputName;
 

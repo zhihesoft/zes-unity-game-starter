@@ -11,8 +11,7 @@ namespace Zes
     public class App : MonoBehaviour
     {
         public static AppConfig config => instance.appConfig;
-        public static AppConstants constants => instance.appConstants;
-        public static string persistentDataPath => Path.Combine(Application.persistentDataPath, constants.patchDataPath);
+        public static string persistentDataPath => Path.Combine(Application.persistentDataPath, config.patchDataPath);
         public static bool inEditor
         {
             get
@@ -24,18 +23,29 @@ namespace Zes
 #endif
             }
         }
-        public static ResourceLoader loader { get; private set; }
 
+        public static ResourceLoader loader { get; private set; }
         private static App instance;
 
+
         public AppInit appInit;
-        public AppConstants appConstants;
-        public TextAsset bootConfig;
+        public TextAsset appConfigFile;
 
         private AppConfig appConfig;
         private JsEnv jsEnv;
         private JSLoader jsLoader;
         private Logger logger = Logger.GetLogger<App>();
+
+        private string javascriptEntry
+        {
+            get
+            {
+#if UNITY_EDITOR
+#endif
+                return "";
+            }
+        }
+
 
         private async Task InitJavascriptEnv()
         {
@@ -64,7 +74,7 @@ namespace Zes
 
             appInit?.OnInit(env);
 
-            env.Eval($"require('{constants.javascriptEntry}');");
+            env.Eval($"require('{appConfig.javascriptEntry}');");
             jsEnv = env;
         }
 
@@ -75,12 +85,12 @@ namespace Zes
 
         private void Start()
         {
-            Debug.Assert(bootConfig != null, "boot config cannot be null");
+            Debug.Assert(appConfigFile != null, "boot config cannot be null");
             DontDestroyOnLoad(gameObject);
 
             instance = this;
             appInit?.BeforeInit();
-            appConfig = JsonUtility.FromJson<AppConfig>(bootConfig.text);
+            appConfig = JsonUtility.FromJson<AppConfig>(appConfigFile.text);
             loader = ResourceLoader.GetLoader();
             Restart();
         }

@@ -9,10 +9,6 @@ namespace Zes.Builders
 {
     public class BuildBundle : BuildTask
     {
-        public BuildBundle(AppConstants constants, BuildTarget target) : base(constants, target) { }
-
-        private AppConfig appConfig;
-        private PlatformConfig platformConfig;
 
         private string targetName;
         private string streamingDir;
@@ -31,12 +27,9 @@ namespace Zes.Builders
         {
             buildNo = BuildNo.Get();
             targetName = target.ToString();
-            string dir = Util.EnsureDir(constants.bundleOutputPath).FullName;
+            string dir = Util.EnsureDir(platformConfig.bundleOutputPath).FullName;
             bundlesDir = Util.EnsureDir(Path.Combine(dir, targetName)).FullName;
             streamingDir = Util.EnsureDir(Application.streamingAssetsPath).FullName;
-
-            appConfig = EditorHelper.LoadAppConfig();
-            platformConfig = EditorHelper.LoadPlatformConfig();
 
             Util.ClearDir(bundlesDir);
             Util.ClearDir(streamingDir);
@@ -71,7 +64,7 @@ namespace Zes.Builders
             vi.url = url;
             vi.version = EditorHelper.CurrentVersion();
             vi.minVersion = appConfig.minVersion;
-            vi.Save(Path.Combine(bundlesDir, constants.versionInfoFile));
+            vi.Save(Path.Combine(bundlesDir, appConfig.versionInfoFile));
             return vi;
         }
 
@@ -89,7 +82,7 @@ namespace Zes.Builders
                 })
                 .ToArray();
 
-            pi.Save(Path.Combine(bundlesDir, constants.patchInfoFile));
+            pi.Save(Path.Combine(bundlesDir, appConfig.patchInfoFile));
             return pi;
         }
 
@@ -120,8 +113,8 @@ namespace Zes.Builders
                     File.Copy(fullpath, Path.Combine(streamingDir, file.path));
                 }
             }
-            File.Copy(Path.Combine(bundlesDir, constants.versionInfoFile), Path.Combine(streamingDir, constants.versionInfoFile), true);
-            File.Copy(Path.Combine(bundlesDir, constants.patchInfoFile), Path.Combine(streamingDir, constants.patchInfoFile), true);
+            File.Copy(Path.Combine(bundlesDir, appConfig.versionInfoFile), Path.Combine(streamingDir, appConfig.versionInfoFile), true);
+            File.Copy(Path.Combine(bundlesDir, appConfig.patchInfoFile), Path.Combine(streamingDir, appConfig.patchInfoFile), true);
 
             BuildPatchZip(EditorHelper.GetAppOutputName(appConfig, platformConfig));
         }

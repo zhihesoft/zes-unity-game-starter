@@ -11,10 +11,10 @@ namespace Zes
 
         public override async Task<bool> Init()
         {
-            scriptBundle = await App.loader.LoadBundle(App.constants.javascriptBundle);
-            Debug.Assert(scriptBundle != null, $"cannot load script bundle: {App.constants.javascriptBundle}.");
-            var txt = (TextAsset)await App.loader.LoadAsset(scriptBundle, App.constants.javascriptEntryRuntime, typeof(TextAsset));
-            Debug.Assert(txt != null, $"cannot load script text ({App.constants.javascriptEntryRuntime}) from bundle");
+            scriptBundle = await App.loader.LoadBundle(App.config.javascriptBundle);
+            Debug.Assert(scriptBundle != null, $"cannot load script bundle: {App.config.javascriptBundle}.");
+            var txt = (TextAsset)await App.loader.LoadAsset(scriptBundle, App.config.javascriptData, typeof(TextAsset));
+            Debug.Assert(txt != null, $"cannot load script text ({App.config.javascriptData}) from bundle");
             scripts = txt.text;
             return true;
         }
