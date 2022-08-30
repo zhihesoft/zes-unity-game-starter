@@ -1,9 +1,9 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace ZEditor
+namespace Zes
 {
-    public class ClearPrefs
+    public static class ClearPrefs
     {
         [MenuItem("ZES/Util/Clear PlayerPrefs")]
         public static void ClearPlayerPrefs()

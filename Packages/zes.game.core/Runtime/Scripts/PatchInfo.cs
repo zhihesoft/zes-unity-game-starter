@@ -22,7 +22,7 @@ namespace Zes
 
         public void Save(string path)
         {
-            using (StreamWriter writer = new StreamWriter(path, false, Util.Utf8WithoutBOM()))
+            using (StreamWriter writer = new StreamWriter(path, false, Util.utf8WithoutBOM))
             {
                 writer.Write(ToJson());
                 writer.Close();

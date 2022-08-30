@@ -9,6 +9,9 @@ namespace Zes
 {
     public static class Util
     {
+        // get no bom utf8 encoding
+        public static Encoding utf8WithoutBOM = new UTF8Encoding(false);
+
         public static async Task WaitAsyncOperation(AsyncOperation op, Action<float> progress = null)
         {
             while (!op.isDone)
@@ -36,12 +39,6 @@ namespace Zes
             var offset = new DateTimeOffset(DateTime.UtcNow);
             long stamp = offset.ToUnixTimeSeconds();
             return stamp;
-        }
-
-        // get no bom utf8 encoding
-        public static Encoding Utf8WithoutBOM()
-        {
-            return new UTF8Encoding(false);
         }
 
         public static DirectoryInfo EnsureDir(string dir)

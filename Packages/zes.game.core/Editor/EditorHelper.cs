@@ -142,7 +142,7 @@ namespace Zes
         private static void SaveJsonObj<T>(T obj, string path) where T : class
         {
             var json = JsonUtility.ToJson(obj, true);
-            File.WriteAllText(path, json, Util.Utf8WithoutBOM());
+            File.WriteAllText(path, json, Util.utf8WithoutBOM);
         }
 
         private static T LoadJsonObj<T>(string path) where T : class

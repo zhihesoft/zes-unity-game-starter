@@ -54,6 +54,8 @@ namespace Zes
                     typeof(App),
                     typeof(AppConfig),
                     typeof(ResourceLoader),
+                    typeof(HttpConnector),
+                    typeof(HttpResult),
                     typeof(NativeChannel),
                     typeof(NativeCallState),
                     typeof(NativeResponse),
