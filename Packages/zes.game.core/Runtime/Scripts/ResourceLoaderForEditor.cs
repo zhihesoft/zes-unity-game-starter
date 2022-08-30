@@ -45,6 +45,12 @@ namespace Zes
         public override void UnloadBundle(AssetBundle bundle)
         {
         }
+
+        public override async Task UnloadScene(Scene scene)
+        {
+            var op = SceneManager.UnloadSceneAsync(scene);
+            await Util.WaitAsyncOperation(op);
+        }
     }
 }
 

@@ -5,6 +5,7 @@
 		"zes.game.core",
 		"com.tencent.puerts.core",
 		"com.tencent.puerts.core.Editor",
+		"Unity.TextMeshPro",
         "Google.Play.AssetDelivery",
 		"Google.Android.AppBundle.Editor"
 	],

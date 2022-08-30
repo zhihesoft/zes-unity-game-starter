@@ -51,6 +51,8 @@ namespace Zes
                     typeof(Animator),
                     typeof(UnityEngine.AI.NavMeshAgent),
 
+                    typeof(TMPro.TMP_Text),
+
                     typeof(App),
                     typeof(AppConfig),
                     typeof(ResourceLoader),
