@@ -60,6 +60,7 @@ namespace Zes
                     typeof(NativeChannel),
                     typeof(NativeCallState),
                     typeof(NativeResponse),
+                    typeof(Tags),
                     typeof(Util),
                 };
             }

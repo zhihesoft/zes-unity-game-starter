@@ -346,4 +346,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   appInit: {fileID: 0}
-  appConfigFile: {fileID: 4900000, guid: 799f01935b39da443b182f7c6e839b6f, type: 3}
