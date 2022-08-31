@@ -1,20 +1,23 @@
 ﻿using System.Diagnostics;
 using System.IO;
 using UnityEditor;
+using UnityEngine;
 
 namespace Zes.Builders
 {
     public class BuildConfigurations : BuildTask
     {
+        static string excelsPathKey => $"{Application.productName}-excelFilesPathKey";
+
         public static string excelsPath
         {
             get
             {
-                return EditorPrefs.GetString("excelFilesPathKey", "");
+                return EditorPrefs.GetString(excelsPathKey, "");
             }
             set
             {
-                EditorPrefs.SetString("excelFilesPathKey", value);
+                EditorPrefs.SetString(excelsPathKey, value);
             }
         }
 

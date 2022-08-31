@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEditor;
+using UnityEngine;
 
 namespace Zes.Settings
 {
@@ -21,7 +22,7 @@ namespace Zes.Settings
             RenderFoldout("Application", ref appFoldout, () =>
             {
                 manager.appConfig.appName = TextField("App short name", manager.appConfig.appName);
-                manager.appConfig.appDisplayName = TextField("App display name", manager.appConfig.appDisplayName);
+                EditorGUILayout.LabelField("App display name", Application.productName);
             });
 
             EditorGUILayout.Space();

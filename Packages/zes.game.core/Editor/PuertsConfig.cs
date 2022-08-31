@@ -18,6 +18,7 @@ namespace Zes
             get
             {
                 return new List<Type>() {
+                    typeof(Application),
                     typeof(Array),
                     typeof(Vector2),
                     typeof(Vector3),

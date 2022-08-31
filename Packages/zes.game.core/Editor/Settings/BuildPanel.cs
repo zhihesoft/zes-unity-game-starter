@@ -27,8 +27,14 @@ namespace Zes.Settings
             EditorGUILayout.LabelField("App config", manager.appConfig.name);
             EditorGUILayout.LabelField("Build no.", buildNo.ToString());
             EditorGUILayout.Space();
-
-            BuildConfigurations.excelsPath = EditorGUILayout.TextField("Excels", BuildConfigurations.excelsPath);
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                BuildConfigurations.excelsPath = EditorGUILayout.TextField("Excels", BuildConfigurations.excelsPath);
+                if (GUILayout.Button("...", EditorStyles.miniButtonRight, GUILayout.Width(32)))
+                {
+                    BuildConfigurations.excelsPath = EditorUtility.OpenFolderPanel("Excels Folder", BuildConfigurations.excelsPath, "");
+                }
+            }
             BuildApp.outputDir = EditorGUILayout.TextField("Output Dir", BuildApp.outputDir);
             GUILayout.FlexibleSpace();
             EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);

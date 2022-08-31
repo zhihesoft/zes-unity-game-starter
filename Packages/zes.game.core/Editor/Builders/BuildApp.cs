@@ -1,18 +1,21 @@
 ﻿using UnityEditor;
+using UnityEngine;
 
 namespace Zes.Builders
 {
     public class BuildApp : BuildTask
     {
+        static string outputDirKey => $"{Application.productName}-appOutputDirKey";
+
         public static string outputDir
         {
             get
             {
-                return EditorPrefs.GetString("appOutputPathKey", "");
+                return EditorPrefs.GetString(outputDirKey, "");
             }
             set
             {
-                EditorPrefs.SetString("appOutputPathKey", value);
+                EditorPrefs.SetString(outputDirKey, value);
             }
         }
 

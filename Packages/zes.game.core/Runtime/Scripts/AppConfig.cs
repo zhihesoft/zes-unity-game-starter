@@ -16,11 +16,6 @@ namespace Zes
         public string appName = "game";
 
         /// <summary>
-        /// App display name
-        /// </summary>
-        public string appDisplayName = "game full name";
-
-        /// <summary>
         /// 
         /// App language
         /// </summary>
