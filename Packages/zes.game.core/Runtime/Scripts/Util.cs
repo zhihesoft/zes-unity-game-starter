@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace Zes
 {
@@ -17,7 +18,7 @@ namespace Zes
             while (!op.isDone)
             {
                 progress?.Invoke(op.progress);
-                await Task.Delay(0);
+                await Task.Yield();
             }
             progress?.Invoke(1);
         }
@@ -26,7 +27,7 @@ namespace Zes
         {
             while (!condition())
             {
-                await Task.Delay(0);
+                await Task.Yield();
             }
         }
 
@@ -41,17 +42,49 @@ namespace Zes
             return stamp;
         }
 
-        public static DirectoryInfo EnsureDir(string dir)
+        /// <summary>
+        /// Copy file
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="dest"></param>
+        /// <returns></returns>
+        public static async Task<bool> FileCopy(string source, string dest)
         {
-            return EnsureDir(new DirectoryInfo(dir));
+            if (source.StartsWith("jar:"))
+            {
+                var www = UnityWebRequest.Get(source);
+                www.downloadHandler = new DownloadHandlerFile(dest);
+                var op = www.SendWebRequest();
+                await WaitAsyncOperation(op);
+            }
+            else
+            {
+                File.Copy(source, dest, true);
+            }
+            return true;
+        }
+
+        public static void FileSave(string text, string dest)
+        {
+            File.WriteAllText(dest, text);
+        }
+
+        public static bool FileExists(string path)
+        {
+            return File.Exists(path);
+        }
+
+        public static DirectoryInfo DirEnsure(string dir)
+        {
+            return DirEnsure(new DirectoryInfo(dir));
         }
 
         // ensure dir exist
-        public static DirectoryInfo EnsureDir(DirectoryInfo dir)
+        public static DirectoryInfo DirEnsure(DirectoryInfo dir)
         {
             if (!dir.Parent.Exists)
             {
-                EnsureDir(dir.Parent);
+                DirEnsure(dir.Parent);
             }
 
             if (!dir.Exists)
@@ -62,26 +95,26 @@ namespace Zes
             return dir;
         }
 
-        public static DirectoryInfo ClearDir(string dir)
+        public static DirectoryInfo DirClear(string dir)
         {
-            return ClearDir(new DirectoryInfo(dir));
+            return DirClear(new DirectoryInfo(dir));
         }
 
         // clear dir
-        public static DirectoryInfo ClearDir(DirectoryInfo dir)
+        public static DirectoryInfo DirClear(DirectoryInfo dir)
         {
-            EnsureDir(dir);
+            DirEnsure(dir);
             dir.GetFiles().ToList().ForEach(f => f.Delete());
             dir.GetDirectories().ToList().ForEach(d => d.Delete(true));
             return dir;
         }
 
-        public static void CopyDir(string from, string to)
+        public static void DirCopy(string from, string to)
         {
-            CopyDir(new DirectoryInfo(from), new DirectoryInfo(to));
+            DirCopy(new DirectoryInfo(from), new DirectoryInfo(to));
         }
 
-        public static void CopyDir(DirectoryInfo from, DirectoryInfo to)
+        public static void DirCopy(DirectoryInfo from, DirectoryInfo to)
         {
             if (!from.Exists)
             {
@@ -89,10 +122,10 @@ namespace Zes
                 return;
             }
 
-            EnsureDir(to);
+            DirEnsure(to);
 
             from.GetFiles().ToList().ForEach(file => file.CopyTo(Path.Combine(to.FullName, file.Name), true));
-            from.GetDirectories().ToList().ForEach(dir => CopyDir(dir, new DirectoryInfo(Path.Combine(to.FullName, dir.Name))));
+            from.GetDirectories().ToList().ForEach(dir => DirCopy(dir, new DirectoryInfo(Path.Combine(to.FullName, dir.Name))));
         }
 
         public static string CombineUri(string baseUri, string path)

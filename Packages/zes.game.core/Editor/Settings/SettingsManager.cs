@@ -40,10 +40,10 @@ namespace Zes.Settings
             string configdir = Path.Combine(settingsSourceDir, configDirName);
             string commonDir = Path.Combine(settingsSourceDir, commonDirName);
 
-            Util.EnsureDir(platformdir);
-            Util.EnsureDir(configdir);
-            Util.EnsureDir(commonDir);
-            Util.EnsureDir(Path.Combine("Assets", "Resources")); // ensure Resources dir exists
+            Util.DirEnsure(platformdir);
+            Util.DirEnsure(configdir);
+            Util.DirEnsure(commonDir);
+            Util.DirEnsure(Path.Combine("Assets", "Resources")); // ensure Resources dir exists
 
             allConfigs = new DirectoryInfo(platformdir).GetDirectories().SelectMany(p =>
                 new DirectoryInfo(configdir)
@@ -155,7 +155,7 @@ namespace Zes.Settings
                             var newConfig = new PlatformConfig();
                             newConfig.name = newPlatformName;
                             var targetPlatformDir = Path.Combine(settingsSourceDir, platformDirName, newConfig.name);
-                            Util.EnsureDir(targetPlatformDir);
+                            Util.DirEnsure(targetPlatformDir);
                             EditorHelper.SavePlatformConfig(newConfig, Path.Combine(targetPlatformDir, platformConfigFileName));
 
                             // create default dev config
@@ -163,8 +163,8 @@ namespace Zes.Settings
 
                             if (!Directory.Exists(targetConfigDir))
                             {
-                                Util.EnsureDir(targetConfigDir);
-                                Util.EnsureDir(Path.Combine(targetConfigDir, "Assets", "Resources"));
+                                Util.DirEnsure(targetConfigDir);
+                                Util.DirEnsure(Path.Combine(targetConfigDir, "Assets", "Resources"));
                                 // create a default config
                                 EditorHelper.SaveAppConfig(new AppConfig(),
                                     Path.Combine(targetConfigDir, "Assets", "Resources", gameConfigFileName));
@@ -235,7 +235,7 @@ namespace Zes.Settings
             if (names != null)
             {
                 // Remove Plugins dir
-                Util.ClearDir("Assets/Plugins");
+                Util.DirClear("Assets/Plugins");
 
                 platformTemplateDir = Path.Combine(settingsSourceDir, platformDirName, names[0]);
                 configTemplateDir = Path.Combine(settingsSourceDir, configDirName, names[1]);
@@ -252,9 +252,9 @@ namespace Zes.Settings
             platformTemplateDir = Path.Combine(settingsSourceDir, platformDirName, names[0]);
             configTemplateDir = Path.Combine(settingsSourceDir, configDirName, names[1]);
 
-            Util.CopyDir(commonTemplateDir, ".");
-            Util.CopyDir(platformTemplateDir, ".");
-            Util.CopyDir(configTemplateDir, ".");
+            Util.DirCopy(commonTemplateDir, ".");
+            Util.DirCopy(platformTemplateDir, ".");
+            Util.DirCopy(configTemplateDir, ".");
 
             LoadConfigs();
             if (platformChanged)

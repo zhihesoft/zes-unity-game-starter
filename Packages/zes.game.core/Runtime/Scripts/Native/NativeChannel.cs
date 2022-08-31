@@ -40,7 +40,7 @@ namespace Zes.Native
             CallNativeMethod(state);
             while (state.status == 0)
             {
-                await Task.Delay(0);
+                await Task.Yield();
             }
             return state;
         }

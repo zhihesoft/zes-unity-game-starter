@@ -40,6 +40,7 @@ namespace Zes
             {
                 bundlePath = Path.Combine(Application.streamingAssetsPath, name);
             }
+            logger.Debug($"bundlepath is {bundlePath}");
             Debug.Assert(File.Exists(bundlePath), $"cannot find bundle in path: ({bundlePath})");
             var bundlereq = AssetBundle.LoadFromFileAsync(bundlePath);
             await Util.WaitAsyncOperation(bundlereq, progress);

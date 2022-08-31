@@ -38,7 +38,7 @@ namespace Zes.Builders
 
         protected override bool OnBuild()
         {
-            Util.EnsureDir(outputDir);
+            Util.DirEnsure(outputDir);
             string extension = "";
             if (EditorHelper.usingAAB(target))
             {

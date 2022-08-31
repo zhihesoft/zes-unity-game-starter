@@ -26,6 +26,20 @@ namespace Zes
             }
         }
 
+        public static string platform
+        {
+            get
+            {
+#if UNITY_ANDROID
+                return "android";
+#elif UNITY_IOS
+                return "ios";
+#else
+                return Application.platform.ToString();
+#endif
+            }
+        }
+
         public static ResourceLoader loader { get; private set; }
         private static App instance;
 

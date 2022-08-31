@@ -27,12 +27,12 @@ namespace Zes.Builders
         {
             buildNo = BuildNo.Get();
             targetName = target.ToString();
-            string dir = Util.EnsureDir(platformConfig.bundleOutputPath).FullName;
-            bundlesDir = Util.EnsureDir(Path.Combine(dir, targetName)).FullName;
-            streamingDir = Util.EnsureDir(Application.streamingAssetsPath).FullName;
+            string dir = Util.DirEnsure(platformConfig.bundleOutputPath).FullName;
+            bundlesDir = Util.DirEnsure(Path.Combine(dir, targetName)).FullName;
+            streamingDir = Util.DirEnsure(Application.streamingAssetsPath).FullName;
 
-            Util.ClearDir(bundlesDir);
-            Util.ClearDir(streamingDir);
+            Util.DirClear(bundlesDir);
+            Util.DirClear(streamingDir);
             Caching.ClearCache();
             return true;
         }
@@ -98,7 +98,7 @@ namespace Zes.Builders
             DirectoryInfo di = new DirectoryInfo(streamingDir);
             di.GetFiles().ToList().ForEach(file => file.Delete());
 
-            bool copyToStreaming = EditorHelper.usingAAB(target);
+            bool copyToStreaming = !EditorHelper.usingAAB(target);
 
             if (copyToStreaming)
             {
@@ -122,7 +122,7 @@ namespace Zes.Builders
         void BuildPatchZip(string name)
         {
             var localDir = new DirectoryInfo(Path.Combine("AssetBundles", EditorUserBuildSettings.activeBuildTarget.ToString()));
-            Util.EnsureDir(BuildApp.outputDir);
+            Util.DirEnsure(BuildApp.outputDir);
             FileInfo zipFile = new FileInfo(Path.Combine(BuildApp.outputDir, name + ".zip"));
             using (ZipFile zip = ZipFile.Create(zipFile.FullName))
             {
