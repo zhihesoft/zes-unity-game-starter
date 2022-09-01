@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
-namespace Zes
+namespace Zes.IO
 {
     public class ResourceLoaderForEditor : ResourceLoader
     {

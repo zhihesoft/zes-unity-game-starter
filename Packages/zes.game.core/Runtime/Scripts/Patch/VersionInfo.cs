@@ -1,9 +1,8 @@
 ﻿using System;
 using System.IO;
-using System.Text;
 using UnityEngine;
 
-namespace Zes
+namespace Zes.Patch
 {
     [Serializable]
     public class VersionInfo

@@ -1,10 +1,11 @@
 ﻿using Puerts;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using UnityEngine.Video;
+using Zes.IO;
 using Zes.Native;
 
 namespace Zes
@@ -19,6 +20,7 @@ namespace Zes
             {
                 return new List<Type>() {
                     typeof(Application),
+                    typeof(SystemInfo),
                     typeof(Array),
                     typeof(Vector2),
                     typeof(Vector3),

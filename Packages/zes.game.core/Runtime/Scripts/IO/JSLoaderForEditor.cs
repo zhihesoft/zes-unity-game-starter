@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Zes
+namespace Zes.IO
 {
     public class JSLoaderForEditor : JSLoader
     {

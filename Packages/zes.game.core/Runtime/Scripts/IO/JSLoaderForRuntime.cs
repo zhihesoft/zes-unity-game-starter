@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Zes
+namespace Zes.IO
 {
     public class JSLoaderForRuntime : JSLoader
     {

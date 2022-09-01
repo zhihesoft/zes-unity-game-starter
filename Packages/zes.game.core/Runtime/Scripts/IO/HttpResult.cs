@@ -1,4 +1,4 @@
-﻿namespace Zes
+﻿namespace Zes.IO
 {
     public class HttpResult
     {

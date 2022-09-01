@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
-namespace Zes
+namespace Zes.IO
 {
     public abstract class ResourceLoader
     {

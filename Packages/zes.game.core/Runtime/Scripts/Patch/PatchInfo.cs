@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using UnityEngine;
 
-namespace Zes
+namespace Zes.Patch
 {
     [System.Serializable]
     public class PatchInfo

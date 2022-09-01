@@ -5,7 +5,7 @@ using System.IO;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Zes
+namespace Zes.IO
 {
     public class ResourceLoaderForAAB : ResourceLoaderForRuntime
     {

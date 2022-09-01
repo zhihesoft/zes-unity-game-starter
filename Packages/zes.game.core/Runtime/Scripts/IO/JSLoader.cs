@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Zes
+namespace Zes.IO
 {
     public abstract class JSLoader : ILoader
     {

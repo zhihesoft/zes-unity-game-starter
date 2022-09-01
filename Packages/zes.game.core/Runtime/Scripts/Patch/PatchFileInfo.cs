@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Zes
+namespace Zes.Patch
 {
     [Serializable]
     public class PatchFileInfo

@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Zes
+namespace Zes.IO
 {
     /// <summary>
     /// WebSocket connector
