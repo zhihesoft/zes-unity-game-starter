@@ -18,13 +18,13 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     async zesAfterViewInit() {
         assert(this.layerMain, "layer-main is null");
-        await this.loader.loadBundles(["ui", "conf"], (p) => {
-            console.log(`p: ${p}`);
+        await this.loader.loadBundles(["ui", "conf"], () => {
+            // console.log(`p: ${p}`);
         });
         this.layers.add("main", this.layerMain);
         this.pages.navigate(PagePatch);
     }
-    
+
     zesOnInit(): void {
         logger.info("app component init");
         logger.debug(`layer service is null? ${this.layers == null}`);
