@@ -16,6 +16,7 @@ export class PageControls {
     @click("#btn-reset-slider", 10)
     async onClickReset() {
         this.slider.next(0);
+        this.slider.next(0);
         while (this.slider.value < 1) {
             this.slider.next(this.slider.value + 0.01);
             await waitForSeconds(1 / 60);
