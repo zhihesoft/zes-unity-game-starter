@@ -32,6 +32,6 @@
     "rxjs": "^7.5.5",
     "ts-md5": "^1.2.11",
     "tsyringe": "^4.7.0",
-    "zes-unity-jslib": "^1.0.1"
+    "zes-unity-jslib": "^1.0.11"
   }
 }
