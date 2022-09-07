@@ -1,11 +1,10 @@
 import { UnityEngine } from "csharp";
 import { BehaviorSubject } from "rxjs";
-import { Click, Component, EaseType, ListView, Page, PageService, Prop, Transit, tween } from "zes-unity-jslib";
+import { Click, Component, EaseType, ListView, PageService, Prop, Transit, tween } from "zes-unity-jslib";
 import { ListViewTest } from "./list-view";
 import { ListViewItem } from "./list-view-item";
 
-@Component({ template: "Assets/Bundles/ui/page_controls.prefab" })
-@Page({ transit: Transit.Fade })
+@Component({ template: "Assets/Bundles/ui/page_controls.prefab", transit: Transit.Fade })
 export class PageControls {
     constructor(
         public pages: PageService,

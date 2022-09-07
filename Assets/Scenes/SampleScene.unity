@@ -133,7 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 78543173}
   - component: {fileID: 78543175}
-  - component: {fileID: 78543174}
+  - component: {fileID: 78543176}
   m_Layer: 5
   m_Name: background
   m_TagString: Untagged
@@ -161,7 +161,15 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &78543174
+--- !u!222 &78543175
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 78543172}
+  m_CullTransparentMesh: 1
+--- !u!114 &78543176
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -191,14 +199,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!222 &78543175
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 78543172}
-  m_CullTransparentMesh: 1
 --- !u!1 &467050577
 GameObject:
   m_ObjectHideFlags: 0

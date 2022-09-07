@@ -99,10 +99,10 @@ namespace Zes.Settings
             }
 
             bool refresAsset = false;
-            using (new EditorGUILayout.HorizontalScope(GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true)))
+            EditorGUILayout.BeginHorizontal(GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
             {
                 SectionSelector();
-                using (new EditorGUILayout.VerticalScope(EditorStyles.helpBox, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true)))
+                EditorGUILayout.BeginVertical(EditorStyles.helpBox, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
                 {
                     if (currentPanel != null)
                     {
@@ -118,7 +118,9 @@ namespace Zes.Settings
                         }
                     }
                 }
+                EditorGUILayout.EndVertical();
             }
+            EditorGUILayout.EndHorizontal();
             if (refresAsset)
             {
                 AssetDatabase.Refresh();

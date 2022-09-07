@@ -1,9 +1,8 @@
 import { UnityEngine } from "csharp";
 import { BehaviorSubject } from "rxjs";
-import { Click, Component, getPatcher, Page, PageService, PatchProvider, PatchStatus, Prop, ResourceService, Text, Transit } from "zes-unity-jslib";
+import { Click, Component, getPatcher, PageService, PatchProvider, PatchStatus, Prop, ResourceService, Text, Transit } from "zes-unity-jslib";
 
-@Component({ template: "Assets/Bundles/ui/page_patch.prefab" })
-@Page({ transit: Transit.Fade })
+@Component({ template: "Assets/Bundles/ui/page_patch.prefab", transit: Transit.Fade })
 export class PagePatch {
 
     constructor(

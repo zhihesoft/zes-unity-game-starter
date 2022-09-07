@@ -29,6 +29,8 @@ namespace Zes
                     typeof(UnityEngine.Object),
                     typeof(GameObject),
                     typeof(Transform),
+                    typeof(RectTransform),
+                    typeof(CanvasGroup),
                     typeof(Component),
                     typeof(AssetBundle),
                     typeof(Sprite),
@@ -74,6 +76,7 @@ namespace Zes
         static Dictionary<Type, Dictionary<string, bool>> filters = new Dictionary<Type, Dictionary<string, bool>>
         {
             { typeof(UnityEngine.UI.Graphic), new Dictionary<string, bool>{ { "OnRebuildRequested", true } } },
+            { typeof(UnityEngine.UI.Text), new Dictionary<string, bool>{ { "OnRebuildRequested", true } } },
         };
 
         [Filter]

@@ -1,4 +1,6 @@
-﻿using UnityEditor;
+﻿using System.Threading.Tasks;
+using UnityEditor;
+using UnityEditor.Build;
 using UnityEngine;
 using Zes.Builders;
 
@@ -38,7 +40,8 @@ namespace Zes.Settings
             BuildApp.outputDir = EditorGUILayout.TextField("Output Dir", BuildApp.outputDir);
             GUILayout.FlexibleSpace();
             EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-            using (new EditorGUILayout.HorizontalScope())
+
+            EditorGUILayout.BeginHorizontal();
             {
                 GUILayout.FlexibleSpace();
                 if (GUILayout.Button("Build Bundles", GUILayout.Width(128), GUILayout.Height(32)))
@@ -55,20 +58,27 @@ namespace Zes.Settings
                 }
                 if (GUILayout.Button("Build", GUILayout.Width(64), GUILayout.Height(32)))
                 {
-                    bool buildsucc = BuildRunner.Run(EditorUserBuildSettings.activeBuildTarget,
-                        new BuildJavascript(),
-                        new BuildConfigurations(),
-                        new BuildBundle(),
-                        new BuildApp());
-                    if (!buildsucc)
-                    {
-                        return;
-                    }
-                    buildNo = BuildNo.Inc();
+                    BuildProc();
                 }
                 EditorGUILayout.Space();
             }
+            EditorGUILayout.EndHorizontal();
             EditorGUILayout.Space();
+        }
+
+        private async void BuildProc()
+        {
+            await Task.Yield();
+            bool buildsucc = BuildRunner.Run(EditorUserBuildSettings.activeBuildTarget,
+                new BuildJavascript(),
+                new BuildConfigurations(),
+                new BuildBundle(),
+                new BuildApp());
+            if (!buildsucc)
+            {
+                return;
+            }
+            buildNo = BuildNo.Inc();
         }
     }
 }

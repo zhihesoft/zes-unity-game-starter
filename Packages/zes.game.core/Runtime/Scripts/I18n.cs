@@ -10,7 +10,8 @@ namespace Zes
         public static Func<int, string> translation;
 
         private static Logger logger = Logger.GetLogger<I18n>();
-        public MaskableGraphic uiText;
+
+        [Tooltip("Language ID")]
         public int languageId;
 
         private void Start()
@@ -25,24 +26,14 @@ namespace Zes
 
         private void SetText(string value)
         {
-            TMP_Text txtpro = uiText as TMP_Text;
-            if (txtpro != null)
+            var uiText = GetComponent<TMP_Text>();
+            if (uiText != null)
             {
-                txtpro.text = value;
+                uiText.text = value;
                 return;
             }
 
-
-            Text txt = uiText as Text;
-            if (txt != null)
-            {
-                txt.text = value;
-                return;
-            }
-
-            var uitype = uiText == null ? "null" : uiText.GetType().ToString();
-            logger.Error($"unknown type for uiText (${uitype})");
-
+            logger.Error($"Cannot find TMPro_Text on the game object {gameObject.name}");
         }
     }
 }
