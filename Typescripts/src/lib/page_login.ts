@@ -1,8 +1,7 @@
-import { component, page } from "zes-unity-jslib";
-import { Transit } from "zes-unity-jslib/dist/lib/metadata_page";
+import { Component, Page, Transit } from "zes-unity-jslib";
 
-@component({ template: "Assets/Bundles/ui/login.prefab" })
-@page({ transit: Transit.Fade })
+@Component({ template: "Assets/Bundles/ui/login.prefab" })
+@Page({ transit: Transit.Fade })
 export class PageLogin {
-    
+
 }

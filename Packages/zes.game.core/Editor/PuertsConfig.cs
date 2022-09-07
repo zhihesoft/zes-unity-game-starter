@@ -38,6 +38,7 @@ namespace Zes
                     typeof(LoadSceneMode),
                     typeof(UnityEngine.UI.Graphic),
                     typeof(UnityEngine.UI.Image),
+                    typeof(UnityEngine.UI.Text),
                     typeof(UnityEngine.UI.Button),
                     typeof(UnityEngine.UI.Toggle),
                     typeof(UnityEngine.UI.ToggleGroup),

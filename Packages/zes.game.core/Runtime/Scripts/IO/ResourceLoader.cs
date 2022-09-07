@@ -51,7 +51,7 @@ namespace Zes.IO
         public abstract Task<Scene> LoadScene(string name, bool additive, Action<float> progress);
         public abstract Task<AssetBundle> LoadBundle(string name, Action<float> progress = null);
         public abstract void UnloadBundle(AssetBundle bundle);
-        public abstract Task UnloadScene(Scene scene);
+        public abstract Task<bool> UnloadScene(Scene scene);
         public abstract Task<UnityEngine.Object> LoadAsset(AssetBundle bundle, string path, Type type);
 
     }

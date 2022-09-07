@@ -1,10 +1,9 @@
 import { UnityEngine } from "csharp";
 import "reflect-metadata";
-import { AfterViewInit, assert, bind, component, getLogger, LayerService, OnInit, PageService, ResourceService } from "zes-unity-jslib";
-import { FadeService } from "zes-unity-jslib/dist/lib/services/fade_service";
+import { AfterViewInit, assert, Bind, Component, FadeService, getLogger, LayerService, OnInit, PageService, ResourceService } from "zes-unity-jslib";
 import { PagePatch } from "./page_patch";
 
-@component()
+@Component()
 export class AppComponent implements OnInit, AfterViewInit {
 
     constructor(
@@ -31,13 +30,13 @@ export class AppComponent implements OnInit, AfterViewInit {
         this.fade.setFadeImage(this.fadeImage);
     }
 
-    @bind("#camera")
+    @Bind("#camera")
     camera!: UnityEngine.Camera;
 
-    @bind("#layer-main")
+    @Bind("#layer-main")
     layerMain!: UnityEngine.GameObject;
 
-    @bind("#fade-image")
+    @Bind("#fade-image")
     fadeImage!: UnityEngine.UI.Image;
 }
 

@@ -25,13 +25,6 @@ namespace Zes.Settings
                 config.languageConfigName = TextField("Language config name", config.languageConfigName);
             }
 
-            EditorGUILayout.LabelField("Bundle");
-            using (new GUIIndent())
-            {
-                config.bundleOutputPath = TextField("Bundle output path", config.bundleOutputPath);
-                config.configurationBundlePath = TextField("Config bundle path", config.configurationBundlePath);
-            }
-
             EditorGUILayout.LabelField("Javascript");
             using (new GUIIndent())
             {

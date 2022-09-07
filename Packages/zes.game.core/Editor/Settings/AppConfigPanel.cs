@@ -16,6 +16,7 @@ namespace Zes.Settings
         private bool commonFoldout = true;
         private bool patchFoldout = true;
         private bool javascriptFoldout = true;
+        private bool bundleFoldout = true;
 
         public override void OnGUI()
         {
@@ -53,6 +54,16 @@ namespace Zes.Settings
                 manager.appConfig.javascriptBundle = TextField("Javascript bundle", manager.appConfig.javascriptBundle);
                 manager.appConfig.javascriptData = TextField("Javascript data", manager.appConfig.javascriptData);
                 manager.appConfig.javascriptEntry = TextField("Javascript entry", manager.appConfig.javascriptEntry);
+            });
+
+            EditorGUILayout.Space();
+
+            RenderFoldout("Bundle Settings", ref javascriptFoldout, () =>
+            {
+                manager.appConfig.configBundleName = TextField("Config bundle name", manager.appConfig.configBundleName);
+                manager.appConfig.configBundlePath = TextField("Config bundle path", manager.appConfig.configBundlePath);
+                manager.appConfig.languageBundleName = TextField("Language bundle name", manager.appConfig.languageBundleName);
+                manager.appConfig.languageBundlePath = TextField("Language bundle path", manager.appConfig.languageBundlePath);
             });
 
         }

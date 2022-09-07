@@ -1,6 +1,6 @@
-import { component, ListViewComponent } from "zes-unity-jslib";
+import { Component, ListViewComponent } from "zes-unity-jslib";
 
-@component()
+@Component()
 export class ListViewTest extends ListViewComponent<string> {
 
 }

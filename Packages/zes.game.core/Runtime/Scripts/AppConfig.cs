@@ -72,9 +72,29 @@ namespace Zes
         public string javascriptData = "Assets/Bundles/js/main.bytes";
 
         /// <summary>
-        /// javascript entry for runtime
+        /// javascript entry for runtime (only for editor, runtime entry is fixed)
         /// </summary>
         public string javascriptEntry = "Typescripts/dist/index.js";
+
+        /// <summary>
+        /// config bundle name
+        /// </summary>
+        public string configBundleName = "conf";
+
+        /// <summary>
+        /// config bundle path
+        /// </summary>
+        public string configBundlePath = "Assets/Bundles/conf";
+
+        /// <summary>
+        /// language bundle name
+        /// </summary>
+        public string languageBundleName = "language";
+
+        /// <summary>
+        /// language bundle path
+        /// </summary>
+        public string languageBundlePath = "Assets/Bundles/language";
 
     }
 }

@@ -1,24 +1,24 @@
 import { UnityEngine } from "csharp";
-import { $typeof } from "puerts";
 import { BehaviorSubject } from "rxjs";
-import { bind, click, component, EaseType, listView, page, PageService, Transit, tween } from "zes-unity-jslib";
+import { Click, Component, EaseType, ListView, Page, PageService, Prop, Transit, tween } from "zes-unity-jslib";
 import { ListViewTest } from "./list-view";
 import { ListViewItem } from "./list-view-item";
 
-@component({ template: "Assets/Bundles/ui/controls.prefab" })
-@page({ transit: Transit.Fade })
+@Component({ template: "Assets/Bundles/ui/controls.prefab" })
+@Page({ transit: Transit.Fade })
 export class PageControls {
     constructor(
         public pages: PageService,
     ) { }
 
     private listitems: string[] = [];
-    @bind("#slider", { type: $typeof(UnityEngine.UI.Slider), prop: "value" })
+
+    @Prop("#slider", UnityEngine.UI.Slider)
     slider: BehaviorSubject<number> = new BehaviorSubject(0);
 
-    @listView("#list-view", { itemClass: ListViewItem }) list!: ListViewTest;
+    @ListView("#list-view", { itemClass: ListViewItem }) list!: ListViewTest;
 
-    @click("#btn-reset-slider", 10)
+    @Click("#btn-reset-slider", 10)
     async onClickReset() {
         this.slider.next(0);
         await tween(0).to(1, 5).setEase(EaseType.Smooth).onUpdate(value => {
@@ -26,17 +26,17 @@ export class PageControls {
         }).run();
     }
 
-    @click("#btn-return")
+    @Click("#btn-return")
     onClickReturn() {
         this.pages.goBack();
     }
 
-    @click("#list-add")
+    @Click("#list-add")
     onClickListAdd() {
         this.listitems.push(`items: ${this.listitems.length}`);
         this.list.setData(this.listitems);
     }
-    @click("#list-reset")
+    @Click("#list-reset")
     onClickListReset() {
         this.listitems = [];
         this.list.setData(this.listitems);

@@ -44,8 +44,12 @@ namespace Zes.Builders
             DirectoryInfo outDir = new DirectoryInfo(Path.Combine(workDir.FullName, "output"));
             DirectoryInfo outClientDir = new DirectoryInfo(Path.Combine(workDir.FullName, "output", "client"));
             DirectoryInfo outLanguageDir = new DirectoryInfo(Path.Combine(workDir.FullName, "output", "language"));
-            DirectoryInfo targetDir = new DirectoryInfo(platformConfig.configurationBundlePath);
-            Util.DirEnsure(targetDir.FullName);
+
+            DirectoryInfo targetConfDir = new DirectoryInfo(appConfig.configBundlePath);
+            DirectoryInfo targetLanguageDir = new DirectoryInfo(appConfig.languageBundlePath);
+
+            Util.DirEnsure(targetConfDir.FullName);
+            Util.DirEnsure(targetLanguageDir.FullName);
             Util.DirEnsure(outDir.FullName);
 
             ProcessStartInfo startInfo = new ProcessStartInfo();
@@ -66,8 +70,8 @@ namespace Zes.Builders
                 return false;
             }
 
-            Util.DirCopy(outClientDir, targetDir);
-            Util.DirCopy(outLanguageDir, targetDir);
+            Util.DirCopy(outClientDir, targetConfDir);
+            Util.DirCopy(outLanguageDir, targetLanguageDir);
 
             return true;
         }

@@ -1,4 +1,5 @@
 ﻿using Puerts;
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -81,10 +82,12 @@ namespace Zes
             env.UsingAction<Vector2>();
             env.UsingAction<Vector3>();
             env.UsingFunc<string, string>();
+            env.UsingFunc<int, string>();
 
             appInit?.OnInit(env);
 
-            env.Eval($"require('{appConfig.javascriptEntry}');");
+            var i18n = env.Eval<Func<int, string>>($"var m = require('{appConfig.javascriptEntry}'); m.i18n");
+            I18n.translation = i18n;
             jsEnv = env;
         }
 
