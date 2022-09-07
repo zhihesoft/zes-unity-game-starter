@@ -4,7 +4,7 @@ import { Click, Component, EaseType, ListView, Page, PageService, Prop, Transit,
 import { ListViewTest } from "./list-view";
 import { ListViewItem } from "./list-view-item";
 
-@Component({ template: "Assets/Bundles/ui/controls.prefab" })
+@Component({ template: "Assets/Bundles/ui/page_controls.prefab" })
 @Page({ transit: Transit.Fade })
 export class PageControls {
     constructor(

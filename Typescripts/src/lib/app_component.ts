@@ -1,7 +1,7 @@
 import { UnityEngine } from "csharp";
 import "reflect-metadata";
 import { AfterViewInit, assert, Bind, Component, FadeService, getLogger, LayerService, OnInit, PageService, ResourceService } from "zes-unity-jslib";
-import { PagePatch } from "./page_patch";
+import { PageTitle } from "./page_title";
 
 @Component()
 export class AppComponent implements OnInit, AfterViewInit {
@@ -21,7 +21,7 @@ export class AppComponent implements OnInit, AfterViewInit {
             // console.log(`p: ${p}`);
         });
         this.layers.add("main", this.layerMain);
-        this.pages.navigate(PagePatch);
+        this.pages.navigate(PageTitle);
     }
 
     zesOnInit(): void {
